@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using YudaSPCWebApplication.BackendServer.Data.Entities.Interfaces;
 
 namespace YudaSPCWebApplication.BackendServer.Data.Entities
 {
