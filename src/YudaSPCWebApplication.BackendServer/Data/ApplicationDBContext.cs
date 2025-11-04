@@ -5,9 +5,9 @@ using YudaSPCWebApplication.BackendServer.Data.Entities;
 
 namespace YudaSPCWebApplication.BackendServer.Data
 {
-    public class ApplicationDBContext : IdentityDbContext<User, Role, int>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
@@ -42,6 +42,15 @@ namespace YudaSPCWebApplication.BackendServer.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Role>()
+            .Property(r => r.IntRoleID)
+            .ValueGeneratedNever(); // Prevent identity generation on this property
+
+
+            modelBuilder.Entity<User>()
+            .Property(r => r.IntUserID)
+            .ValueGeneratedNever(); // Prevent identity generation on this property
 
             modelBuilder.HasSequence("KnowledgeBaseSepence");
         }

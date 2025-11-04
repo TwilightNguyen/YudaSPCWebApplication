@@ -5,8 +5,6 @@ VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C4A94C44-0DE3-4CD9-8A35-CAF1E86ECB60}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YudaSPCWebApplication.WebPortal", "src\YudaSPCWebApplication.WebPortal\YudaSPCWebApplication.WebPortal.csproj", "{F25F171D-CA68-44B9-AFA4-8DB001AE628F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YudaSPCWebApplication.ViewModels", "src\YudaSPCWebApplication.ViewModels\YudaSPCWebApplication.ViewModels.csproj", "{6D45C8A8-8BEE-4840-83BA-5340A073D246}"
@@ -20,6 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{5FDEFC88-2E12-4AD0-974D-E9AD52DD1CDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YudaSPCWebApplication.BackendServer", "src\YudaSPCWebApplication.BackendServer\YudaSPCWebApplication.BackendServer.csproj", "{82DE234E-8687-4A49-A4F5-F150A4E3452D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8F10D183-B7BE-4A16-B3D8-EED26EE3DF82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
