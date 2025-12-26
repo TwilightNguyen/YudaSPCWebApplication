@@ -22,3 +22,7 @@ TODO: Explain how other users and developers can contribute to make your code be
 - [ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/?view=aspnetcore-9.0&WT.mc_id=dotnet-35129-website)
 - [Visual Studio](https://visualstudio.microsoft.com/)
 - [IdentityServer4](https://duendesoftware.com/products/identityserver)
+
+# Migration Database
+- Add-Migration Initial -OutputDir Data/Migrations
+- Update-Database

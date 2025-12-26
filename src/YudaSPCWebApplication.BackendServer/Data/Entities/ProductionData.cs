@@ -8,106 +8,46 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("intID")]
         public int IntID { get; set; }
 
-        public int? IntProductID { get; set; }
-
-        public int? IntJobID { get; set; }
-
+        [Column("intLineID")]
         public int? IntLineID { get; set; }
 
-        public int? IntProcessID { get; set; }
-
-        public int? IntAreaID { get; set; }
-
-        public int? IntJobQty { get; set; }
-
-        public int? IntOutputQty { get; set; }
-
-        public int? IntInspPlanID { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrNotes { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrInspPlanName { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrModelInternal { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrNameArea { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessName { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessLineCode { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessLineName { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrNameProduct { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrJobCode { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrPOCode { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrSOCode { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrCustomerName { get; set; }
-
+        [Column("dtStartTime", TypeName = "datetime")]
         public DateTime? DtStartTime { get; set; }
 
+        [Column("dtEndTime", TypeName = "datetime")]
         public DateTime? DtEndTime { get; set; }
 
-        public DateTime? DtCreateTime { get; set; }
+        [Column("intJobID")]
+        public int? IntJobID { get; set; }
 
+        [Column("boolDeleted")]
         public bool? BoolDeleted { get; set; }
 
+        [Column("intUserID")]
         public int? IntUserID { get; set; }
 
         [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrFullName { get; set; }
+        [Column("strNotes", TypeName = "nvarchar(100)")]
+        public string? StrNotes { get; set; }
 
+        [Column("dtProductionDate", TypeName = "datetime")]
         public DateTime? DtProductionDate { get; set; }
 
+        [Column("intProductionQty")]
         public int? IntProductionQty { get; set; }
 
         [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
+        [Column("strLotInform", TypeName = "nvarchar(100)")]
         public string? StrLotInform { get; set; }
 
         [MaxLength(50)]
-        [Column(TypeName = "nvarchar(50)")]
+        [Column("strMaterialInform", TypeName = "nvarchar(50)")]
         public string? StrMaterialInform { get; set; }
+
+        [Column("intCNCLatheMachine")]
         public int? IntCNCLatheMachine { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrCNCLatheMachine { get; set; }
-        public int? IntVialFixture { get; set; }
-
-        [MaxLength(50)]
-        [Column(TypeName = "nvarchar(50)")]
-        public string? StrVialFixture { get; set; }
     }
 }

@@ -7,11 +7,12 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
     public class BlockVialFixture
     {
         [Key]
+        [Column("intID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IntID { get; set; }
 
         [MaxLength(50)]
-        [Column(TypeName = "nvarchar(50)")]
+        [Column("strVialFixture", TypeName = "nvarchar(50)")]
         public string? StrVialFixture { get; set; }
     }
 }

@@ -8,38 +8,56 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("intID")]
         public int IntID { get; set; }
 
-        public int? IntModelID { get; set; }
+        [Column("intInspPlanID")]
+        public int? IntInspPlanID { get; set; }
 
+        [Column("intCharacteristicID")]
         public int? IntCharacteristicID { get; set; }
 
-        public int? IntProcessID { get; set; }
-
-        [MaxLength(200)]
-        [Column(TypeName = "nvarchar(200)")]
-        public string? StrCharacteristicName { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessName { get; set; }
-
+        [Column("ftLCL")]
         public double? FtLCL { get; set; }
 
+        [Column("ftUCL")]
         public double? FtUCL { get; set; }
 
+        [Column("ftCLS3")]
         public double? FtLCLS3 { get; set; }
 
+        [Column("ftCLS3")]
         public double? FtUCLS3 { get; set; }
 
+        [Column("boolSPCChart")]
         public bool? BoolSPCChart { get; set; }
 
+        [Column("boolDataEntry")]
         public bool? BoolDataEntry { get; set; }
 
-        public bool? BoolDeleted { get; set; }
+        [Column("intPlanTypeID")]
+        public int? IntPlanTypeID { get; set; }
+
+        [Column("intPlanState")]
+        public int? IntPlanState { get; set; }
+
+        [Column("ftCpkMax")]
+        public double? FtCpkMax { get; set; }
+
+        [Column("ftCpkMin")]
+        public double? FtCpkMin { get; set; }
+
+        [Column("boolSpkControl")]
+        public bool? BoolSpkControl { get; set; }
 
         [MaxLength(20)]
-        [Column(TypeName = "nvarchar(20)")]
+        [Column("strSampleSize", TypeName = "nvarchar(20)")]
         public string? StrSampleSize { get; set; }
+
+        [Column("ftPercentControlLimit")]
+        public double? FtPercentControlLimit { get; set; }
+
+        [Column("boolDeleted")]
+        public bool? BoolDeleted { get; set; }
     }
 }

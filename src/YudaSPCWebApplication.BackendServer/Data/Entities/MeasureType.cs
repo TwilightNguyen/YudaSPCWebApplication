@@ -8,9 +8,11 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("intID")]
         public int IntID { get; set; }
 
         [MaxLength(100)]
+        [Column("strMeaType", TypeName = "nvarchar(100)")]
         public string? StrMeaType { get; set; }
     }
 }

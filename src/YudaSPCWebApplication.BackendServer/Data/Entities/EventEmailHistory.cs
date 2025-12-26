@@ -7,49 +7,27 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
     public class EventEmailHistory 
     {
         [Key]
+        [Column("intID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IntID { get; set; }
 
-        public int? IntAreaID { get; set; }
-
+        [Column("intCharacteristicID")]
         public int? IntCharacteristicID { get; set; }
 
+        [Column("intProductionID")]
         public int? IntProductionID { get; set; }
 
-        public int? IntProcessID { get; set; }
-
-        public int? IntLineID { get; set; }
-
+        [Column("intDefectRate")]
         public int? IntDefectRate { get; set; }
 
-        public int? IntEmailEventModel { get; set; }
-
+        [Column("intAEActive")]
         public int? IntAEActive { get; set; }
 
+        [Column("dtTimeIn", TypeName = "datetime")]
         public DateTime? DtTimeIn { get; set; }
 
-        [MaxLength(300)]
-        [Column(TypeName = "nvarchar(300)")]
+        [Column("strEmailAddress", TypeName = "nvarchar(max)")]
         public string? StrEmailAddress { get; set; }
 
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrNameArea { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessName { get; set; }
-
-        [MaxLength(200)]
-        [Column(TypeName = "nvarchar(200)")]
-        public string? StrCharacteristicName { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessLineCode { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessLineName { get; set; }
     }
 }

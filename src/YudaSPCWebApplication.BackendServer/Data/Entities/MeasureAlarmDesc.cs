@@ -3,16 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YudaSPCWebApplication.BackendServer.Data.Entities
 {
-    [Table("tbInspectionPlanType")]
-    public class InspectionPlanType
+    [Table("tbMeasureAlarmDesc")]
+    public class MeasureAlarmDesc
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("intID")]
         public int IntID { get; set; }
 
-        [MaxLength(100)]
-        [Column("strPlanTypeName", TypeName = "nvarchar(100)")]
-        public string? StrPlanTypeName { get; set; }
+        [Column("intAlarmValue")]
+        public int? IntAlarmValue { get; set; }
+
+        [MaxLength(50)]
+        [Column("strAlarmDesc", TypeName = "nvarchar(50)")]
+        public string? StrAlarmDesc { get; set; }
     }
 }

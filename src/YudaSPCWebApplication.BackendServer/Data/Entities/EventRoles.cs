@@ -7,45 +7,15 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
     public class EventRoles
     {
         [Key]
+        [Column("intID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int IntID { get; set; }
 
-        [MaxLength(50)]
-        [Column(TypeName = "nvarchar(50)")]
-        public string? StrRoleID { get; set; }
-
-        public int? IntAreaID { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrNameArea { get; set; }
-
-        public int? IntProcessID { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrProcessName { get; set; }
-
+        [Column("intCharacteristicID")]
         public int? IntCharacteristicID { get; set; }
 
-        [MaxLength(200)]
-        [Column(TypeName = "nvarchar(200)")]
-        public string? StrCharacteristicName { get; set; }
-
-        public int? IntDefectRateLimit { get; set; }
-
-        public int? IntEventEnable { get; set; }
-
-        public int? IntMeaTypeID { get; set; }
-
-        public int? IntEmailEventModel { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrMeaType { get; set; }
-
-        [MaxLength(100)]
-        [Column(TypeName = "nvarchar(100)")]
-        public string? StrCharacteristicUnit { get; set; }
+        [MaxLength(50)]
+        [Column("strRoleID", TypeName = "nvarchar(50)")]
+        public string? StrRoleID { get; set; }
     }
 }
