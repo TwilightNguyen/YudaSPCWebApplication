@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using YudaSPCWebApplication.BackendServer.Data;
+using YudaSPCWebApplication.BackendServer.Data.Entities;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -20,6 +22,10 @@ builder.Services.AddOpenApi();
 
 // Register DbInitializer (can remain Transient)
 builder.Services.AddTransient<DbInitializer>();
+
+builder.Services.AddIdentity<User, Role>(options => { })
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 var app = builder.Build();
 

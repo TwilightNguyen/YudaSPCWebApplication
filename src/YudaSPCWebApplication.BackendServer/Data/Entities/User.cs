@@ -1,11 +1,11 @@
 ﻿//using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace YudaSPCWebApplication.BackendServer.Data.Entities
 {  
-    [Table("tbUser")]
-    public class User //: IdentityUser<int>
+    public class User : IdentityUser<string>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

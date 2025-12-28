@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 
 namespace YudaSPCWebApplication.BackendServer.Data
 {
-    public class DbInitializer
+    public class DbInitializer(ApplicationDbContext context,
+                         UserManager<User> userManager,
+                         RoleManager<Role> roleManager)
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
+        private readonly UserManager<User> _userManager = userManager;
+        private readonly RoleManager<Role> _roleManager = roleManager;
 
         private readonly Dictionary<int, string> _roles = new()
         {
@@ -20,12 +23,6 @@ namespace YudaSPCWebApplication.BackendServer.Data
             {6, "Guests" }
         };
 
-        public DbInitializer(
-            ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
         public async Task Seed()
         {
             // Ensure database is created
@@ -33,7 +30,7 @@ namespace YudaSPCWebApplication.BackendServer.Data
 
             #region Quyền
             // Seed Roles
-            if (!_context.Roles.Any())
+            if (!_roleManager.Roles.Any())
             {
                 foreach (var rolePair in _roles)
                 {
@@ -43,9 +40,14 @@ namespace YudaSPCWebApplication.BackendServer.Data
                         StrRoleName = rolePair.Value,
                         IntLevel = rolePair.Key,
                         StrDescription = rolePair.Value,
-                        IntRoleUser = 0
+                        IntRoleUser = 0,
+
+                        Id = Guid.NewGuid().ToString(),
+                        Name = rolePair.Value,
+                        NormalizedName = rolePair.Value.ToUpper(),
+                        ConcurrencyStamp = Guid.NewGuid().ToString()
                     };
-                    await _context.Roles.AddAsync(role);
+                    await _roleManager.CreateAsync(role);
                 }
 
                 await _context.SaveChangesAsync();
@@ -54,7 +56,7 @@ namespace YudaSPCWebApplication.BackendServer.Data
 
             #region Người dùng
             // Seed Admin User
-            if (!_context.Users.Any())
+            if (!_userManager.Users.Any())
             {
                 var adminUser = new User
                 {
@@ -62,10 +64,19 @@ namespace YudaSPCWebApplication.BackendServer.Data
                     StrEmailAddress = "admin@gmail.com",
                     StrRoleID = "1",
                     IntEnable = 1,
-                    StrPassword = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes("admin@123")))
-                };
-                await _context.Users.AddAsync(adminUser);
+                    StrPassword = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes("admin@123"))),
+                    
+                    Id = Guid.NewGuid().ToString(),
+                    UserName = "admin",
+                    Email = "admin@gmail.com",
+                    NormalizedUserName = "admin".ToUpper(),
+                    NormalizedEmail = "admin@gmail.com".ToUpper(),
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                }; 
+                await _userManager.CreateAsync(adminUser);
                 await _context.SaveChangesAsync();
+
             }
             #endregion Người dùng
         }

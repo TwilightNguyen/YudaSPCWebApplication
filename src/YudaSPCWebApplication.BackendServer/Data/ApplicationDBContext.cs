@@ -1,16 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 
 namespace YudaSPCWebApplication.BackendServer.Data
 {
-    public class ApplicationDbContext : DbContext //IdentityDbContext<User, Role, int>
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
+        ) : IdentityDbContext<User, Role, string>(options)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
-        )
-            : base(options)
-        {
-        }
-
         public virtual DbSet<EventLog> EventLogs { get; set; }
         public virtual DbSet<TVDisplay> TVDisplays { get; set; }
         public virtual DbSet<MeasData3_01> MeasDatas { get; set; }
@@ -22,10 +18,10 @@ namespace YudaSPCWebApplication.BackendServer.Data
         public virtual DbSet<Process> Processes { get; set; }
         public virtual DbSet<Characteristic> Characteristices { get; set; }
         public virtual DbSet<ProductName> ProductNames { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
+        //public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<JobDecision> JobDecisions { get; set; }
         public virtual DbSet<Shift> Shifts { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        //public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<JobData> JobDatas { get; set; }
         public virtual DbSet<EventRoles> AlarmEvents { get; set; }
         public virtual DbSet<EmailServer> EmailServers { get; set; }
