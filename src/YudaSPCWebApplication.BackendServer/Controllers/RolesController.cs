@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels;
 using YudaSPCWebApplication.ViewModels.System;
@@ -24,12 +25,13 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="roleVm"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateRole(RoleVm roleVm)
+        public async Task<IActionResult> CreateRole([FromBody]RoleVm roleVm)
         { 
             if (string.IsNullOrWhiteSpace(roleVm.Name))
             {
                 return BadRequest("Role name cannot be empty.");
             }
+
             var roleExists = await _roleManager.RoleExistsAsync(roleVm.Name);
             if (roleExists)
             {
@@ -50,14 +52,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             };
 
             var result = await _roleManager.CreateAsync(role);
-            if (result.Succeeded)
-            {
-                return Ok("Role created successfully.");
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating role.");
-            }
+            
+            return result.Succeeded ? Ok("Role created successfully.") : BadRequest("Role creation failed.");
         }
 
         /// <summary>
@@ -67,7 +63,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllRoles()
         {
-            var roles = _roleManager.Roles.ToList();
+            var roles = await _roleManager.Roles.ToListAsync();
 
             if (roles == null) return NotFound("No roles found.");
 
@@ -79,6 +75,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 IntLevel = role.IntLevel,
                 IntRoleID = role.IntRoleID
             }).ToList();
+
             return Ok(roleVms);
         }
 
@@ -87,7 +84,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetRoles(string filter,int pageIndex, int pageSize)
+        public async Task<IActionResult> GetRolesPaging(string? filter,int pageIndex, int pageSize)
         {
             var query = _roleManager.Roles.AsQueryable();
 
@@ -96,7 +93,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 query = query.Where(r => r.StrRoleName!.Contains(filter) || (r.StrDescription != null && r.StrDescription.Contains(filter)));
             }
 
-            var items = query.Skip((pageIndex - 1) * pageSize)
+            List<RoleVm> items = query.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .Select(role => new RoleVm
                 {
@@ -134,6 +131,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
             var roleVm = new RoleVm
             {
+                IntRoleID = role.IntRoleID,
                 Name = role.StrRoleName ?? string.Empty,
                 Description = role.StrDescription,
                 IntRoleUser = role.IntRoleUser??-1,

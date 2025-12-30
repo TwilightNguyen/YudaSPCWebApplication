@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YudaSPCWebApplication.WebPortal\YudaSPCWebApplication.WebPortal.csproj" />
+    <ProjectReference Include="..\YudaSPCWebApplication.ViewModels\YudaSPCWebApplication.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
