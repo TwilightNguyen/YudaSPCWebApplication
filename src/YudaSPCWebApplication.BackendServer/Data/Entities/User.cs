@@ -7,7 +7,6 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
 {  
     public class User : IdentityUser<string>
     {
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("intUserID")]
         public int IntUserID { get; set; }

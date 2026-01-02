@@ -2,8 +2,8 @@
 TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
 
 # Technologies Used
-1. ASP.NET Core 9.0
-2. SQL Server 2022
+1. ASP.NET Core 10.0
+2. SQL Server 2026
 
 # How to run this Project
 1. Clone this source code form your repository.
@@ -19,7 +19,7 @@ TODO: Describe and show how to build your code and run the tests.
 TODO: Explain how other users and developers can contribute to make your code better. 
 
 # References
-- [ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/?view=aspnetcore-9.0&WT.mc_id=dotnet-35129-website)
+- [ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/?view=aspnetcore-10.0&WT.mc_id=dotnet-35129-website)
 - [Visual Studio](https://visualstudio.microsoft.com/)
 - [IdentityServer4](https://duendesoftware.com/products/identityserver)
 

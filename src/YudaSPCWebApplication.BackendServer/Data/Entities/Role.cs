@@ -6,7 +6,6 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
 {
     public class Role : IdentityRole<string>
     {
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("intRoleID")]
         public int IntRoleID { get; set; }

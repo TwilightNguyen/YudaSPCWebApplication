@@ -37,6 +37,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             {
                 return Conflict("Role already exists.");
             }
+
+
+            var maxIntRoleId = _roleManager.Roles
+                .Max(r => (int?)r.IntRoleID) ?? 0;
+
             // Use IdentityRole instead of Role for RoleManager
             var role = new Role
             {
@@ -48,7 +53,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 StrRoleName = roleVm.Name,
                 StrDescription = roleVm.Description,
                 IntRoleUser = roleVm.IntRoleUser,
-                IntLevel = roleVm.IntLevel
+                IntLevel = roleVm.IntLevel,
+                IntRoleID = maxIntRoleId + 1
             };
 
             var result = await _roleManager.CreateAsync(role);
@@ -83,7 +89,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// Url: /api/roles/?filter=serchString&pageIndex=1&pageSize=10
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("Pagging")]
         public async Task<IActionResult> GetRolesPaging(string? filter,int pageIndex, int pageSize)
         {
             var query = _roleManager.Roles.AsQueryable();

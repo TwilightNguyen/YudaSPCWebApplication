@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Microsoft.OpenApi;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 
@@ -26,6 +27,10 @@ builder.Services.AddTransient<DbInitializer>();
 builder.Services.AddIdentity<User, Role>(options => { })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
+
+builder.Services.AddSwaggerGen(c =>{ 
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Quality Management System API", Version = "v1" });
+});
 
 var app = builder.Build();
 
@@ -56,5 +61,11 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Quality Management System API V1");
+});
 
 app.Run();

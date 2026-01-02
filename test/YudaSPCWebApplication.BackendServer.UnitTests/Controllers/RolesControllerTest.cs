@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using YudaSPCWebApplication.BackendServer.Controllers;
@@ -155,7 +156,9 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
             var controller = new RolesController(_mockRoleManager.Object);
 
             var result = await controller.GetRolesPaging(null, 1, 2);
+            var result2 = await controller.GetRolesPaging("Admin", 1, 2);
             var OkResult = result as OkObjectResult;
+            var OkResult2 = result2 as OkObjectResult;
 
             // Assert
             Assert.NotNull(result);
@@ -163,7 +166,14 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
             Assert.NotNull(roleList);
             Assert.Equal(5, roleList.TotalRecords);
             Assert.Equal(2, roleList.Items.Count);
+
+            Assert.NotNull(result2);
+            var roleList2 = OkResult2?.Value as Pagination<RoleVm>;
+            Assert.NotNull(roleList2);
+            Assert.Equal(1, roleList2.TotalRecords);
+            Assert.Single(roleList2.Items);
         }
+         
 
         [Fact]
         public async Task GetRolesPaging_ThrowException_Failed()

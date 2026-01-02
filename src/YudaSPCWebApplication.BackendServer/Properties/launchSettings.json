@@ -19,5 +19,14 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "YudaSPCWebApplication.BackendServer": {
+    "commandName": "Project",
+    "launchBrowser": true,
+    "applicationUrl": "https://localhost:7022;http://localhost:5121",
+    "launchUrl": "swagger",
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Development"
+    }
   }
 }
