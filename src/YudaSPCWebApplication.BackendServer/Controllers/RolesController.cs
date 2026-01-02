@@ -26,7 +26,12 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateRole([FromBody]RoleVm roleVm)
-        { 
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (string.IsNullOrWhiteSpace(roleVm.Name))
             {
                 return BadRequest("Role name cannot be empty.");
@@ -156,6 +161,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpPut("{Id}")]
         public async Task<IActionResult> UpdateRole(int Id, RoleVm roleVm)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (Id < 0 || Id != roleVm.IntRoleID)
             {
                 return BadRequest("Role ID mismatch.");

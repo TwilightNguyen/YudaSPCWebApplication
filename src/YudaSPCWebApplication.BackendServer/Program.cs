@@ -4,6 +4,9 @@ using Serilog;
 using Microsoft.OpenApi;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
+using FluentValidation.AspNetCore; 
+using YudaSPCWebApplication.ViewModels.System;
+using FluentValidation;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
@@ -19,6 +22,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // MVC / OpenAPI
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<RoleVmValidator>();
+
 builder.Services.AddOpenApi();
 
 // Register DbInitializer (can remain Transient)
@@ -31,6 +38,7 @@ builder.Services.AddIdentity<User, Role>(options => { })
 builder.Services.AddSwaggerGen(c =>{ 
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Quality Management System API", Version = "v1" });
 });
+
 
 var app = builder.Build();
 
