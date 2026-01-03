@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
+using MockQueryable.Moq;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
-using YudaSPCWebApplication.BackendServer.UnitTests.Extensions;
 using YudaSPCWebApplication.ViewModels;
 using YudaSPCWebApplication.ViewModels.System;
+using MockQueryable;
 
-namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
+namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {
     public class RolesControllerTest
     { 
@@ -115,8 +116,9 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         [Fact]
         public async Task GetAllRole_HasData_ReturnSuccess()
         {
+
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
 
             // Act
             var controller = new RolesController(_mockRoleManager.Object);
@@ -147,33 +149,45 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         }
 
         [Fact]
-        public async Task GetRolesPaging_HasData_ReturnSuccess()
+        public async Task GetRolesPaging_NoFilter_ReturnSuccess()
         { 
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
 
             // Act
             var controller = new RolesController(_mockRoleManager.Object);
 
             var result = await controller.GetRolesPaging(null, 1, 2);
-            var result2 = await controller.GetRolesPaging("Admin", 1, 2);
             var OkResult = result as OkObjectResult;
-            var OkResult2 = result2 as OkObjectResult;
 
             // Assert
             Assert.NotNull(result);
             var roleList = OkResult?.Value as Pagination<RoleVm>;
             Assert.NotNull(roleList);
             Assert.Equal(5, roleList.TotalRecords);
-            Assert.Equal(2, roleList.Items.Count);
-
-            Assert.NotNull(result2);
-            var roleList2 = OkResult2?.Value as Pagination<RoleVm>;
-            Assert.NotNull(roleList2);
-            Assert.Equal(1, roleList2.TotalRecords);
-            Assert.Single(roleList2.Items);
+            Assert.Equal(2, roleList.Items.Count); 
         }
-         
+
+
+        [Fact]
+        public async Task GetRolesPaging_HasFilter_ReturnSuccess()
+        {
+            _mockRoleManager.Setup(rm => rm.Roles)
+                .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new RolesController(_mockRoleManager.Object);
+
+            var result = await controller.GetRolesPaging("Admin", 1, 2);
+            var OkResult = result as OkObjectResult;
+
+            // Assert 
+            Assert.NotNull(result);
+            var roleList = OkResult?.Value as Pagination<RoleVm>;
+            Assert.NotNull(roleList);
+            Assert.Equal(1, roleList.TotalRecords);
+            Assert.Single(roleList.Items);
+        }
 
         [Fact]
         public async Task GetRolesPaging_ThrowException_Failed()
@@ -192,7 +206,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         public async Task GetRoleById_HasData_ReturnSuccess()
         { 
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
 
             // Act
             var controller = new RolesController(_mockRoleManager.Object);
@@ -224,7 +238,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         public async Task UpdateRole_ValidInput_Success()
         {
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
 
             _mockRoleManager.Setup(rm => rm.UpdateAsync(It.IsAny<Role>()))
                 .ReturnsAsync(IdentityResult.Success);
@@ -257,7 +271,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         public async Task UpdateRole_ValidInput_Failed_RoleIDMismatch()
         {
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
             _mockRoleManager.Setup(rm => rm.UpdateAsync(It.IsAny<Role>()))
                 .ReturnsAsync(IdentityResult.Failed([]));
 
@@ -288,7 +302,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         public async Task UpdateRole_ValidInput_Failed_RoleNotFound()
         {
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
             _mockRoleManager.Setup(rm => rm.UpdateAsync(It.IsAny<Role>()))
                 .ReturnsAsync(IdentityResult.Failed([]));
 
@@ -320,7 +334,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         public async Task DeleteRole_ValidInput_Success()
         {
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
 
             _mockRoleManager.Setup(rm => rm.DeleteAsync(It.IsAny<Role>()))
                 .ReturnsAsync(IdentityResult.Success);
@@ -347,7 +361,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTests.Controllers
         public async Task DeleteRole_ValidInput_Failed_RoleNotFound()
         {
             _mockRoleManager.Setup(rm => rm.Roles)
-                .Returns(_rolesSource.AsAsyncQueryable);
+                .Returns(_rolesSource.BuildMock());
             _mockRoleManager.Setup(rm => rm.DeleteAsync(It.IsAny<Role>()))
                 .ReturnsAsync(IdentityResult.Failed([]));
 

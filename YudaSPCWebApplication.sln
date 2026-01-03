@@ -21,12 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YudaSPCWebApplication.Backe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D33FA8E-8173-436C-9B0F-4892C9DFEE21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YudaSPCWebApplication.BackendServer.UnitTests", "test\YudaSPCWebApplication.BackendServer.UnitTests\YudaSPCWebApplication.BackendServer.UnitTests.csproj", "{161D3FB0-21BC-424A-89AE-FBA3B75AE925}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{0F89E2B9-EFE6-441D-B54F-656563F7AA53}"
-	ProjectSection(SolutionItems) = preProject
-		QueryableExtensions.cs = QueryableExtensions.cs
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YudaSPCWebApplication.BackendServer.UnitTest", "test\YudaSPCWebApplication.BackendServer.UnitTests\YudaSPCWebApplication.BackendServer.UnitTest.csproj", "{161D3FB0-21BC-424A-89AE-FBA3B75AE925}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,7 +54,6 @@ Global
 		{6D45C8A8-8BEE-4840-83BA-5340A073D246} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{82DE234E-8687-4A49-A4F5-F150A4E3452D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{161D3FB0-21BC-424A-89AE-FBA3B75AE925} = {9D33FA8E-8173-436C-9B0F-4892C9DFEE21}
-		{0F89E2B9-EFE6-441D-B54F-656563F7AA53} = {9D33FA8E-8173-436C-9B0F-4892C9DFEE21}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A9C37076-2807-4508-8B5D-89B7DC8702A1}
