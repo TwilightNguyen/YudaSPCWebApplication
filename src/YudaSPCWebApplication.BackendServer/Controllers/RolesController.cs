@@ -15,7 +15,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
         public RolesController(RoleManager<Role> roleManager)
         {
-            _roleManager = roleManager;
+            using var _ = _roleManager = roleManager;
         }
 
 
@@ -104,7 +104,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 query = query.Where(r => r.StrRoleName!.Contains(filter) || (r.StrDescription != null && r.StrDescription.Contains(filter)));
             }
 
-            List<RoleVm> items = query.Skip((pageIndex - 1) * pageSize)
+            List<RoleVm> items = [.. query.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .Select(role => new RoleVm
                 {
@@ -113,7 +113,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                     IntRoleUser = role.IntRoleUser ?? -1,
                     IntLevel = role.IntLevel,
                     IntRoleID = role.IntRoleID
-                }).ToList();
+                })];
 
             var paginaton = new Pagination<RoleVm>()
             {
