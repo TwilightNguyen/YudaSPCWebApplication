@@ -32,16 +32,16 @@ namespace YudaSPCWebApplication.BackendServer.IdentityServer
                 ClientName = "Web Portal Client",
 
                 // no interactive user, use the clientid/secret for authentication
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.Code,
                 RequireConsent = false,
                 RequirePkce = true,
                 AllowOfflineAccess = true,
 
                 // Where to redirect after login
-                RedirectUris = { "https://localhost:5001/signin-oidc" },
+                RedirectUris = { "https://localhost:7022/signin-oidc" },
 
                 // Where to redirect after logout   
-                PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
+                PostLogoutRedirectUris = { "https://localhost:7022/signout-callback-oidc" },
 
                 // secret for authentication
                 ClientSecrets =
@@ -59,33 +59,36 @@ namespace YudaSPCWebApplication.BackendServer.IdentityServer
             },
             new Client
             {
-                ClientId = "swgger",
+                ClientId = "swagger",
                 ClientName = "Swagger Client",
 
                 // no interactive user, use the clientid/secret for authentication
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                AllowedGrantTypes = GrantTypes.Implicit,
+                AllowAccessTokensViaBrowser = true,
                 RequireConsent = false,
+                RequireClientSecret = false,
                 RequirePkce = true,
-                AllowOfflineAccess = true,
 
                 // Where to redirect after login
-                RedirectUris = { "https://localhost:5001/signin-oidc" },
-
+                RedirectUris =              { "https://localhost:7022/swagger/oauth2-redirect.html" },
                 // Where to redirect after logout   
-                PostLogoutRedirectUris = { "https://localhost:5001/signout-callback-oidc" },
+                PostLogoutRedirectUris =    { "https://localhost:7022/swagger/oauth2-redirect.html" },
+                AllowedCorsOrigins =        { "https://localhost:7022" },
 
-                // secret for authentication
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256())
-                },
+                //// secret for authentication
+                //ClientSecrets =
+                //{
+                //    new Secret("secret".Sha256())
+                //},
 
-                // scopes that client has access to
+                // scopes that client has                                                                                                                                                                                       access to
                 AllowedScopes = {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    "api.qms"
-                }
+                    "api.qms",
+                    IdentityServerConstants.LocalApi.ScopeName
+                },
+                Enabled = true
             }
         ];
 
@@ -93,7 +96,9 @@ namespace YudaSPCWebApplication.BackendServer.IdentityServer
         {
             _ = services.AddIdentityServer()
                 .AddDeveloperSigningCredential()        //This is for dev only scenarios when you don’t have a certificate to use.
+                .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
+                .AddInMemoryApiResources(Config.ApiResources)
                 .AddInMemoryClients(Config.Clients);
 
             // omitted for brevity

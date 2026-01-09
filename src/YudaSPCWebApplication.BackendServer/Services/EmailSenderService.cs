@@ -2,7 +2,7 @@
 
 namespace YudaSPCWebApplication.BackendServer.Services
 {
-    public class EmailSenderSevice : IEmailSender
+    public class EmailSenderService : IEmailSender
     {
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
