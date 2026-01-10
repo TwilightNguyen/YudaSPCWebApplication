@@ -1,13 +1,10 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace YudaSPCWebApplication.ViewModels.System
 {
-    public class RoleVmValidator: AbstractValidator<RoleVm>
+    public class RoleValidator: AbstractValidator<RoleCreateRequest>
     {
-        public RoleVmValidator()
+        public RoleValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Role name is required.")
@@ -16,10 +13,10 @@ namespace YudaSPCWebApplication.ViewModels.System
             RuleFor(x => x.Description)
                 .MaximumLength(512).WithMessage("Description must not exceed 512 characters.");
 
-            RuleFor(x => x.IntRoleUser)
+            RuleFor(x => x.RoleUser)
                 .GreaterThanOrEqualTo(0).WithMessage("IntRoleUser must be non-negative.");
 
-            RuleFor(x => x.IntLevel)
+            RuleFor(x => x.Level)
                 .GreaterThanOrEqualTo(0).WithMessage("IntLevel must be non-negative.");
         }
     }

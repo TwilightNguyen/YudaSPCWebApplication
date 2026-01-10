@@ -38,7 +38,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<RoleVmValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<RoleValidator>();
 
 //builder.Services.AddOpenApi();
 //builder.Services.AddEndpointsApiExplorer(); 

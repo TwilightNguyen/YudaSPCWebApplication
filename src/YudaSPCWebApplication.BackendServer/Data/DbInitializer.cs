@@ -64,7 +64,7 @@ namespace YudaSPCWebApplication.BackendServer.Data
                     StrEmailAddress = "admin@gmail.com",
                     StrRoleID = "1",
                     IntEnable = 1,
-                    StrPassword = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes("admin@123"))),
+                    StrPassword = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes("Admin@123"))),
                     
                     Id = Guid.NewGuid().ToString(),
                     UserName = "admin",
@@ -74,7 +74,7 @@ namespace YudaSPCWebApplication.BackendServer.Data
                     EmailConfirmed = true,
                     SecurityStamp = Guid.NewGuid().ToString(),
                 }; 
-                await _userManager.CreateAsync(adminUser);
+                await _userManager.CreateAsync(adminUser, "Admin@123");
                 await _context.SaveChangesAsync();
 
             }

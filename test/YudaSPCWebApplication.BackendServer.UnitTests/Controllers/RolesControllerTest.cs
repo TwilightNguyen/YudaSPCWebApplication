@@ -63,13 +63,12 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             // Act
             var controller = new RolesController(_mockRoleManager.Object);
 
-            var result = await controller.CreateRole(new RoleVm
+            var result = await controller.CreateRole(new RoleCreateRequest
             {
                 Name = "Test",
                 Description = "Test Role",
-                IntLevel = 10,
-                IntRoleID = 10,
-                IntRoleUser = 10
+                Level = 10,
+                RoleUser = 10
             });
 
             // Assert
@@ -92,13 +91,12 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             // Act
             var controller = new RolesController(_mockRoleManager.Object);
 
-            var result = await controller.CreateRole(new RoleVm
+            var result = await controller.CreateRole(new RoleCreateRequest
             {
                 Name = "",
                 Description = "",
-                IntLevel = -1,
-                IntRoleID = -1,
-                IntRoleUser = -1
+                Level = -1,
+                RoleUser = -1
             });
 
             // Assert
@@ -217,7 +215,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.NotNull(result);
             var roleList = OkResult?.Value as RoleVm;
             Assert.NotNull(roleList);
-            Assert.Equal(1, roleList.IntRoleID);
+            Assert.Equal(1, roleList.RoleID);
         }
 
         [Fact]
@@ -249,9 +247,9 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             {
                 Name = "Admin 1",
                 Description = "Admin 1",
-                IntLevel = 2,
-                IntRoleID = 1,
-                IntRoleUser = 0
+                Level = 2,
+                RoleID = 1,
+                RoleUser = 0
             });
 
             // Assert
@@ -281,9 +279,9 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             {
                 Name = "Admin 1",
                 Description = "Admin 1",
-                IntLevel = 2,
-                IntRoleID = 1,
-                IntRoleUser = 0
+                Level = 2,
+                RoleID = 1,
+                RoleUser = 0
             });
 
             // Assert
@@ -312,9 +310,9 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             {
                 Name = "Admin 1",
                 Description = "Admin 1",
-                IntLevel = 2,
-                IntRoleID = 10,
-                IntRoleUser = 0
+                Level = 2,
+                RoleID = 10,
+                RoleUser = 0
             });
 
             // Assert

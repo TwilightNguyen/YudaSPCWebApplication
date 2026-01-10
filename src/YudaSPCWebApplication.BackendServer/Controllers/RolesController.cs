@@ -27,19 +27,19 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="roleVm"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateRole([FromBody]RoleVm roleVm)
+        public async Task<IActionResult> CreateRole([FromBody]RoleCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (string.IsNullOrWhiteSpace(roleVm.Name))
+            if (string.IsNullOrWhiteSpace(request.Name))
             {
                 return BadRequest("Role name cannot be empty.");
             }
 
-            var roleExists = await _roleManager.RoleExistsAsync(roleVm.Name);
+            var roleExists = await _roleManager.RoleExistsAsync(request.Name);
             if (roleExists)
             {
                 return Conflict("Role already exists.");
@@ -53,14 +53,14 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             var role = new Role
             {
                 Id = Guid.NewGuid().ToString(),
-                Name = roleVm.Name,
-                NormalizedName = roleVm.Name.ToUpperInvariant(),
+                Name = request.Name,
+                NormalizedName = request.Name.ToUpperInvariant(),
                 ConcurrencyStamp = Guid.NewGuid().ToString(),
 
-                StrRoleName = roleVm.Name,
-                StrDescription = roleVm.Description,
-                IntRoleUser = roleVm.IntRoleUser,
-                IntLevel = roleVm.IntLevel,
+                StrRoleName = request.Name,
+                StrDescription = request.Description,
+                IntRoleUser = request.RoleUser,
+                IntLevel = request.Level,
                 IntRoleID = maxIntRoleId + 1
             };
 
@@ -84,9 +84,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             {
                 Name = role.StrRoleName ?? string.Empty,
                 Description = role.StrDescription,
-                IntRoleUser = role.IntRoleUser ?? -1,
-                IntLevel = role.IntLevel,
-                IntRoleID = role.IntRoleID
+                RoleUser = role.IntRoleUser ?? -1,
+                Level = role.IntLevel,
+                RoleID = role.IntRoleID
             }).ToList();
 
             return Ok(roleVms);
@@ -112,9 +112,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 {
                     Name = role.StrRoleName ?? string.Empty,
                     Description = role.StrDescription,
-                    IntRoleUser = role.IntRoleUser ?? -1,
-                    IntLevel = role.IntLevel,
-                    IntRoleID = role.IntRoleID
+                    RoleUser = role.IntRoleUser ?? -1,
+                    Level = role.IntLevel,
+                    RoleID = role.IntRoleID
                 })];
 
             var paginaton = new Pagination<RoleVm>()
@@ -144,11 +144,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
             var roleVm = new RoleVm
             {
-                IntRoleID = role.IntRoleID,
+                RoleID = role.IntRoleID,
                 Name = role.StrRoleName ?? string.Empty,
                 Description = role.StrDescription,
-                IntRoleUser = role.IntRoleUser??-1,
-                IntLevel = role.IntLevel
+                RoleUser = role.IntRoleUser??-1,
+                Level = role.IntLevel
             };
             return Ok(roleVm);
         }
@@ -168,7 +168,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (Id < 0 || Id != roleVm.IntRoleID)
+            if (Id < 0 || Id != roleVm.RoleID)
             {
                 return BadRequest("Role ID mismatch.");
             }
@@ -185,8 +185,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
             role.StrRoleName = roleVm.Name;
             role.StrDescription = roleVm.Description;
-            role.IntRoleUser = roleVm.IntRoleUser;
-            role.IntLevel = roleVm.IntLevel;
+            role.IntRoleUser = roleVm.RoleUser;
+            role.IntLevel = roleVm.Level;
 
             var result = await _roleManager.UpdateAsync(role);
             if (result.Succeeded)
@@ -214,9 +214,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 {
                     Name = role.StrRoleName ?? string.Empty,
                     Description = role.StrDescription,
-                    IntRoleUser = role.IntRoleUser ?? -1,
-                    IntLevel = role.IntLevel,
-                    IntRoleID = role.IntRoleID
+                    RoleUser = role.IntRoleUser ?? -1,
+                    Level = role.IntLevel,
+                    RoleID = role.IntRoleID
                 };
 
                 return Ok(roleVm);
