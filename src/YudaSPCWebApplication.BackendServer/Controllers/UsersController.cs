@@ -2,13 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Signing;
 using System.Security.Cryptography;
 using System.Text;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels;
 using YudaSPCWebApplication.ViewModels.System;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {
@@ -22,8 +20,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
         public UsersController(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            using var _ = _userManager = userManager;
-             _roleManager = roleManager;
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         }
 
 
