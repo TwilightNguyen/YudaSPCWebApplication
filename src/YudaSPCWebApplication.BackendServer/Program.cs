@@ -39,6 +39,7 @@ builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<RoleValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
 
 //builder.Services.AddOpenApi();
 //builder.Services.AddEndpointsApiExplorer(); 

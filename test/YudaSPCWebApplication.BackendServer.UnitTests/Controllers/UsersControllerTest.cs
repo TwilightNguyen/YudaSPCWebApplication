@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MockQueryable;
 using Moq;
 using System;
@@ -26,22 +27,48 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             // Arrange
             // Mock UserManager
             var uStore = new Mock<IUserStore<User>>();
-            var uRoleValidators = new List<IUserValidator<User>>(); // can stay empty
+            var uOptions = Options.Create(new IdentityOptions());
+            var uPasswordHasher = new Mock<IPasswordHasher<User>>();
+            var uValidators = new List<IUserValidator<User>>(); // can stay empty
             var uKeyNormalizer = new Mock<ILookupNormalizer>();
             var uErrorDescriber = new IdentityErrorDescriber();
             var uLogger = new Mock<ILogger<UserManager<User>>>();
+            var uPasswordValidators = new List<IPasswordValidator<User>>       // 5. IEnumerable<IPasswordValidator<User>>
+            {
+                new PasswordValidator<User>()
+            };
+
+            var uServices = new Mock<IServiceProvider>();
+
+
 
             _mockUserManager = new Mock<UserManager<User>>(
                 uStore.Object,
-                uRoleValidators,
+                uOptions,
+                uPasswordHasher.Object,
+                uValidators,
+                uPasswordValidators,
                 uKeyNormalizer.Object,
                 uErrorDescriber,
+                uServices.Object,
                 uLogger.Object
-            );
+            )
+            {
+                CallBase = true
+            };
 
-            _usersSource =
+            // _mockUserManager = new Mock<UserManager<User>>(
+            //    uStore.Object,
+            //    uValidators,
+            //    uKeyNormalizer.Object,s
+            //    uErrorDescriber,
+            //    uLogger.Object
+            //);
+
+
+                _usersSource =
             [
-                new() { 
+                new User() { 
                     Id = Guid.NewGuid().ToString(), 
                     UserName = "admin",
                     NormalizedUserName = "ADMIN",
@@ -58,7 +85,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                     StrStaffID = "A001",
                     DtLastActivityTime = DateTime.UtcNow
                 },
-                new() {
+                new User() {
                     Id = Guid.NewGuid().ToString(),
                     UserName = "super",
                     NormalizedUserName = "SUPER",
@@ -75,7 +102,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                     StrStaffID = "S001",
                     DtLastActivityTime = DateTime.UtcNow
                 },
-                new() {
+                new User() {
                     Id = Guid.NewGuid().ToString(),
                     UserName = "manager",
                     NormalizedUserName = "MANAGER",
@@ -93,7 +120,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                     DtLastActivityTime = DateTime.UtcNow
                 },
 
-                new() {
+                new User() {
                     Id = Guid.NewGuid().ToString(),
                     UserName = "technician",
                     NormalizedUserName = "TECHNICIAN",
@@ -110,7 +137,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                     StrStaffID = "T001",
                     DtLastActivityTime = DateTime.UtcNow
                 },
-                new() {
+                new User() {
                     Id = Guid.NewGuid().ToString(),
                     UserName = "operator",
                     NormalizedUserName = "OPERATOR",
@@ -127,7 +154,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                     StrStaffID = "O001",
                     DtLastActivityTime = DateTime.UtcNow
                 },
-                new() {
+                new User() {
                     Id = Guid.NewGuid().ToString(),
                     UserName = "guest",
                     NormalizedUserName = "GUEST",
@@ -147,11 +174,11 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             ];
 
             // Mock RoleManager
-            var rStore = new Mock<IUserStore<Role>>();
-            var rRoleValidators = new List<IUserValidator<Role>>(); // can stay empty
+            var rStore = new Mock<IRoleStore<Role>>();
+            var rRoleValidators = new List<IRoleValidator<Role>>(); // can stay empty
             var rKeyNormalizer = new Mock<ILookupNormalizer>();
             var rErrorDescriber = new IdentityErrorDescriber();
-            var rLogger = new Mock<ILogger<UserManager<Role>>>();
+            var rLogger = new Mock<ILogger<RoleManager<Role>>>();
 
             _mockRoleManager = new Mock<RoleManager<Role>>(
                 rStore.Object,
@@ -186,7 +213,10 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
         [Fact]
         public async Task CreateUser_ValidInput_Success()
         {
-            _mockUserManager.Setup(rm => rm.CreateAsync(It.IsAny<User>()))
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+
+            _mockUserManager.Setup(rm => rm.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
 
             // Act
@@ -198,8 +228,9 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                 FullName = "User 01",
                 Department = "IT",
                 StaffID = "U001",
-                Password = "User@123",
+                Password = "Admin@123",
                 RoleID = "6",
+                SelectedAreaID = "1",
                 Enable = 1
             });
 
@@ -210,13 +241,16 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.Equal("User created successfully.", successRequest.Value);
 
             // Verify UserManager was NEVER called
-            _mockUserManager.Verify(rm => rm.CreateAsync(It.IsAny<User>()), Times.Once);
+            _mockUserManager.Verify(rm => rm.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
         public async Task CreateUser_ValidInput_Failed()
         {
-            _mockUserManager.Setup(rm => rm.CreateAsync(It.IsAny<User>()))
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+
+            _mockUserManager.Setup(rm => rm.CreateAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Failed([]));
 
             // Act
@@ -224,12 +258,13 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 
             var result = await controller.CreateUser(new UserCreateRequest
             {
-                EmailAddress = "user01@gmail.com",
-                FullName = "",
+                EmailAddress = string.Empty,
+                FullName = "User 1",
                 Department = "IT",
                 StaffID = "U001",
-                Password = "User@123",
+                Password = "Admin@123",
                 RoleID = "6",
+                SelectedAreaID = "1",
                 Enable = 1
             });
 
@@ -237,10 +272,10 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.NotNull(result);
 
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("User name cannot be empty.", badRequest.Value);
+            Assert.Equal("Email cannot be empty.", badRequest.Value);
 
             // Verify UserManager was NEVER called
-            _mockUserManager.Verify(rm => rm.CreateAsync(It.IsAny<User>()), Times.Never);
+            _mockUserManager.Verify(rm => rm.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Never);
         }
 
         [Fact]
@@ -313,7 +348,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 
             // Assert 
             Assert.NotNull(result);
-            var userList = OkResult?.Value as Pagination<RoleVm>;
+            var userList = OkResult?.Value as Pagination<UserVm>;
             Assert.NotNull(userList);
             Assert.Equal(1, userList.TotalRecords);
             Assert.Single(userList.Items);
@@ -346,15 +381,15 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 
             // Assert
             Assert.NotNull(result);
-            var roleList = OkResult?.Value as RoleVm;
-            Assert.NotNull(roleList);
-            Assert.Equal(1, roleList.RoleID);
+            var userList = OkResult?.Value as UserVm;
+            Assert.NotNull(userList);
+            Assert.Equal(1, userList.UserID);
         }
 
         [Fact]
-        public async Task GetRoleById_ThrowException_Failed()
+        public async Task GetUserById_ThrowException_Failed()
         {
-            _mockRoleManager.Setup(rm => rm.Roles)
+            _mockUserManager.Setup(rm => rm.Users)
                 .Throws<Exception>();
 
             // Act
@@ -447,8 +482,8 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                 Department = "OT",
                 StaffID = "A002",
                 EmailAddress = "admin1@gmail.com",
-                Enable = 10,
-                UserID = 1,
+                Enable = 1,
+                UserID = 10,
             });
 
             // Assert

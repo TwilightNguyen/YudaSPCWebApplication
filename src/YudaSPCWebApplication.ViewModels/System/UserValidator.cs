@@ -32,7 +32,7 @@ namespace YudaSPCWebApplication.ViewModels.System
                 .MaximumLength(50).WithMessage("Selected Area ID must not exceed 50 characters.");
 
             RuleFor(x => x.Password)
-                .Empty().WithMessage("Password is required.")
+                .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters long.")
                 .MaximumLength(100).WithMessage("Password must not exceed 100 characters.")
                 .Matches(@"[A-Z]").WithMessage("Password must contain at least one uppercase letter (A-Z).")

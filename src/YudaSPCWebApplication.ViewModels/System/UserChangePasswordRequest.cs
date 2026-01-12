@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Configuration.UserSecrets;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YudaSPCWebApplication.ViewModels.System
+﻿namespace YudaSPCWebApplication.ViewModels.System
 {
     public class UserChangePasswordRequest
     {

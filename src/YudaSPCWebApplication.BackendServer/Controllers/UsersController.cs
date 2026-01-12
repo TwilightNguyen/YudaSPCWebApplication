@@ -18,12 +18,12 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
+        
         public UsersController(UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         }
-
 
         /// <summary>
         ///  URL: /api/users
@@ -41,13 +41,13 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest("Email cannot be empty.");
             }
 
-            var userExists = await _userManager.FindByEmailAsync(request.EmailAddress);
+            //var userExists = _userManager.FindByEmailAsync(request.EmailAddress);
+            var userExists = _userManager.Users.FirstOrDefault( x => x.Email == request.EmailAddress);
 
-            if (userExists == null)
+            if (userExists != null)
             {
                 return Conflict("Email already exists.");
             }
-
 
             var maxIntuserId = _userManager.Users
                 .Max(r => (int?)r.IntUserID) ?? 0;
@@ -60,6 +60,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 StrRoleID = request.RoleID,
                 IntEnable = request.Enable,
                 StrPassword = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(request.Password))),
+                IntUserID = maxIntuserId + 1,
+                StrDepartment = request.Department,
+                StrStaffID = request.StaffID,
+                StrSelectedAreaID = request.SelectedAreaID,
+                DtLastActivityTime = DateTime.UtcNow,
 
                 Id = Guid.NewGuid().ToString(),
                 UserName = request.FullName,

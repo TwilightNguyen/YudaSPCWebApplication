@@ -15,7 +15,7 @@ namespace YudaSPCWebApplication.ViewModels.System
                 .NotEmpty().WithMessage("Current password is required.");
 
             RuleFor(x => x.NewPassword)
-                .Empty().WithMessage("Password is required.")
+                .NotEmpty().WithMessage("Password is required.")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters long.")
                 .MaximumLength(100).WithMessage("Password must not exceed 100 characters.")
                 .Matches(@"[A-Z]").WithMessage("Password must contain at least one uppercase letter (A-Z).")
