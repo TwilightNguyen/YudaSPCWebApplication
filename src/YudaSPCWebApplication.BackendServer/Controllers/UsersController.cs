@@ -13,28 +13,21 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "Bearer")]
-    public class UsersController : Controller
+    public class UsersController(UserManager<User> userManager, RoleManager<Role> roleManager) : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<Role> _roleManager;
-
-        
-        public UsersController(UserManager<User> userManager, RoleManager<Role> roleManager)
-        {
-            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-            _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
-        }
+        private readonly UserManager<User> _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+        private readonly RoleManager<Role> _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
 
         /// <summary>
         ///  URL: /api/users
         /// </summary>
-        [HttpPost]
+        [HttpPost] 
         public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
             if (string.IsNullOrWhiteSpace(request.EmailAddress))
             {
@@ -224,7 +217,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// Url: /api/users/ChangePasswrod
         /// </summary>
         /// 
-        [HttpPut("ChangePasswrod")]
+        [HttpPut("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] UserChangePasswordRequest request)
         {
             if (!ModelState.IsValid)
@@ -275,7 +268,6 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             {
                 return NotFound("User not found.");
             }
-
 
             var role = _roleManager.Roles.FirstOrDefault(r => r.IntLevel == roleId);
             

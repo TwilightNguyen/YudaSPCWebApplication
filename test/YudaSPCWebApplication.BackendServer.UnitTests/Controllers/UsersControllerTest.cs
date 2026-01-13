@@ -4,9 +4,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MockQueryable;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels;
@@ -39,8 +36,6 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             };
 
             var uServices = new Mock<IServiceProvider>();
-
-
 
             _mockUserManager = new Mock<UserManager<User>>(
                 uStore.Object,
@@ -190,11 +185,11 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 
             _rolesSource =
             [
-                new() { Id = Guid.NewGuid().ToString(), Name = "Admin", IntRoleID = 1, StrRoleName = "Admin", StrDescription = "Administrator Role", IntLevel = 1, IntRoleUser = 5 },
-                new() { Id = Guid.NewGuid().ToString(), Name = "User",  IntRoleID = 2, StrRoleName = "User", StrDescription = "User Role", IntLevel = 2, IntRoleUser = 10 },
-                new() { Id = Guid.NewGuid().ToString(), Name = "Manager",  IntRoleID = 3, StrRoleName = "Manager", StrDescription = "Manager Role", IntLevel = 3, IntRoleUser = 3 },
-                new() { Id = Guid.NewGuid().ToString(), Name = "Assistant",  IntRoleID = 4, StrRoleName = "Assistant", StrDescription = "Assistant Role", IntLevel = 4, IntRoleUser = 7 },
-                new() { Id = Guid.NewGuid().ToString(), Name = "Supervisor",  IntRoleID = 5, StrRoleName = "Supervisor", StrDescription = "Supervisor Role", IntLevel = 5, IntRoleUser = 2 },
+                new() { Id = Guid.NewGuid().ToString(), Name = "Admin", IntRoleID = 1, StrRoleName = "Admin", StrDescription = "Administrator Role", IntLevel = 1, IntRoleUser = 0 },
+                new() { Id = Guid.NewGuid().ToString(), Name = "User",  IntRoleID = 2, StrRoleName = "User", StrDescription = "User Role", IntLevel = 2, IntRoleUser = 0 },
+                new() { Id = Guid.NewGuid().ToString(), Name = "Manager",  IntRoleID = 3, StrRoleName = "Manager", StrDescription = "Manager Role", IntLevel = 3, IntRoleUser = 0 },
+                new() { Id = Guid.NewGuid().ToString(), Name = "Assistant",  IntRoleID = 4, StrRoleName = "Assistant", StrDescription = "Assistant Role", IntLevel = 4, IntRoleUser = 0 },
+                new() { Id = Guid.NewGuid().ToString(), Name = "Supervisor",  IntRoleID = 5, StrRoleName = "Supervisor", StrDescription = "Supervisor Role", IntLevel = 5, IntRoleUser = 0 },
             ];
         }
 
@@ -332,7 +327,6 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.Equal(6, userList.TotalRecords);
             Assert.Equal(2, userList.Items.Count);
         }
-
 
         [Fact]
         public async Task GetUsersPaging_HasFilter_ReturnSuccess()
@@ -524,9 +518,8 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             _mockUserManager.Verify(rm => rm.DeleteAsync(It.IsAny<User>()), Times.Once);
         }
 
-
         [Fact]
-        public async Task DeleteUser_ValidInput_Failed_RoleNotFound()
+        public async Task DeleteUser_ValidInput_Failed_UserNotFound()
         {
             _mockUserManager.Setup(rm => rm.Users)
                 .Returns(_usersSource.BuildMock());
@@ -549,5 +542,419 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             // Verify UserManager was NEVER called
             _mockUserManager.Verify(rm => rm.DeleteAsync(It.IsAny<User>()), Times.Never);
         }
+
+        [Fact]
+        public async Task ChangePassword_ValidInput_Success()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Success);
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.ChangePassword(new UserChangePasswordRequest
+            {
+                CurrentPassword = "Admin@123",
+                NewPassword = "Admin@1234",
+                UserID = 1
+            });
+
+            // Assert
+            Assert.NotNull(result);
+
+            var successRequest = Assert.IsType<NoContentResult>(result);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            _mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ChangePassword_ValidInput_Failed_UserNotFound()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.ChangePassword(new UserChangePasswordRequest
+            {
+                CurrentPassword = "Admin@123",
+                NewPassword = "Admin@1234",
+                UserID = 10
+            });
+
+            // Assert
+            Assert.NotNull(result);
+
+            var notFoundRequest = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal("User not found.", notFoundRequest.Value);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            _mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ChangePassword_ValidInput_Failed_CurrentPasswordIncorrect()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.ChangePassword(new UserChangePasswordRequest
+            {
+                CurrentPassword = "Wrong@123",
+                NewPassword = "Admin@1234",
+                UserID = 1
+            });
+
+            // Assert
+            Assert.NotNull(result);
+
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            _mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task AssignRole_ValidInput_Success()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.AssignRole(6, 1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var successRequest = Assert.IsType<NoContentResult>(result);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            _mockRoleManager.VerifyGet(um => um.Roles, Times.AtLeast(2));
+            _mockUserManager.Verify(um => um.UpdateAsync(It.IsAny<User>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task AssignRole_ValidInput_Failed_UserIdMismatch()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.AssignRole(-1, 1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var badFoundRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("User ID mismatch.", badFoundRequest.Value);
+
+            // Verify UserManager was called
+            //_mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task AssignRole_ValidInput_Failed_RoleIdMismatch()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.AssignRole(1, -1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Role ID mismatch.", badRequest.Value);
+
+            // Verify UserManager was called
+            //_mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task AssignRole_ValidInput_Failed_UserNotNound()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.AssignRole(10, 1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var notFoundequest = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal("User not found.", notFoundequest.Value);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task AssignRole_ValidInput_Failed_RoleNotNound()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.AssignRole(6, 10);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var notFoundRequest = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal("Role not found.", notFoundRequest.Value);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            _mockRoleManager.VerifyGet(um => um.Roles, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task AssignRole_ValidInput_Failed_RoleAlreadyAssigned()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.AssignRole(1, 1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("User already has this role.", badRequest.Value);
+
+            // Verify UserManager was called
+            _mockRoleManager.VerifyGet(um => um.Roles, Times.Once);
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task AssignRole_ValidInput_Failed_AssignMultipleSystemRole()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.AssignRole(1, 2);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Can't assign multiple roles to a single user.", badRequest.Value);
+
+            // Verify UserManager was called
+            _mockRoleManager.VerifyGet(um => um.Roles, Times.AtLeast(2));
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+
+        [Fact]
+        public async Task UnassignRole_ValidInput_Success()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.UnassignRole(1, 1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var successRequest = Assert.IsType<NoContentResult>(result);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            _mockRoleManager.VerifyGet(um => um.Roles, Times.AtLeast(2));
+            _mockUserManager.Verify(um => um.UpdateAsync(It.IsAny<User>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task UnassignRole_ValidInput_Failed_UserIdMismatch()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.UnassignRole(-1, 1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var badFoundRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("User ID mismatch.", badFoundRequest.Value);
+
+            // Verify UserManager was called
+            //_mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task UnassignRole_ValidInput_Failed_RoleIdMismatch()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.UnassignRole(1, -1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Role ID mismatch.", badRequest.Value);
+
+            // Verify UserManager was called
+            //_mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task UnassignRole_ValidInput_Failed_UserNotNound()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.UnassignRole(10, 1);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var notFoundequest = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal("User not found.", notFoundequest.Value);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task UnassignRole_ValidInput_Failed_RoleNotNound()
+        {
+            _mockUserManager.Setup(rm => rm.Users)
+                .Returns(_usersSource.BuildMock());
+            _mockUserManager.Setup(rm => rm.UpdateAsync(It.IsAny<User>()))
+                .ReturnsAsync(IdentityResult.Failed([]));
+
+            _mockRoleManager.Setup(rm => rm.Roles)
+               .Returns(_rolesSource.BuildMock());
+
+            // Act
+            var controller = new UsersController(_mockUserManager.Object, _mockRoleManager.Object);
+
+            var result = await controller.UnassignRole(6, 10);
+
+            // Assert
+            Assert.NotNull(result);
+
+            var notFoundRequest = Assert.IsType<NotFoundObjectResult>(result);
+            Assert.Equal("Role not found.", notFoundRequest.Value);
+
+            // Verify UserManager was called
+            _mockUserManager.VerifyGet(um => um.Users, Times.Once);
+            _mockRoleManager.VerifyGet(um => um.Roles, Times.Once);
+            //_mockUserManager.Verify(um => um.ChangePasswordAsync(It.IsAny<User>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
     }
 }

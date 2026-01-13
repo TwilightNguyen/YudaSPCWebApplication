@@ -1,5 +1,5 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -36,10 +36,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // MVC / OpenAPI
 builder.Services.AddControllers();
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<RoleValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<UserValidator>();
+builder.Services.AddFluentValidationAutoValidation(configuration =>
+{
+    configuration.EnableBodyBindingSourceAutomaticValidation = true;
+    configuration.EnableFormBindingSourceAutomaticValidation = true;
+});
 
 //builder.Services.AddOpenApi();
 //builder.Services.AddEndpointsApiExplorer(); 
@@ -82,7 +85,7 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer"
                 }
             },
-            new[] { "api.qms" }
+            ["api.qms"] 
         }
     });
 
@@ -131,7 +134,6 @@ builder.Services.AddAuthorizationBuilder()
                 })
            .Build();
     });
-
 
 builder.Services.AddCors(options =>
 {
@@ -203,8 +205,8 @@ app.UseRouting();
 
 app.UseCors("AllowSwaggerUI");  
 
-app.UseAuthentication();
 app.UseIdentityServer();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSwagger();
