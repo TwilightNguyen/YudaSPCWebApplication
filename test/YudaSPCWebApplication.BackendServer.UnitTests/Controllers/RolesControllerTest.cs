@@ -215,7 +215,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.NotNull(result);
             var roleList = OkResult?.Value as RoleVm;
             Assert.NotNull(roleList);
-            Assert.Equal(1, roleList.RoleID);
+            Assert.Equal(1, roleList.RoleId);
         }
 
         [Fact]
@@ -248,7 +248,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                 Name = "Admin 1",
                 Description = "Admin 1",
                 Level = 2,
-                RoleID = 1,
+                RoleId = 1,
                 RoleUser = 0
             });
 
@@ -280,7 +280,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                 Name = "Admin 1",
                 Description = "Admin 1",
                 Level = 2,
-                RoleID = 1,
+                RoleId = 1,
                 RoleUser = 0
             });
 
@@ -311,7 +311,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                 Name = "Admin 1",
                 Description = "Admin 1",
                 Level = 2,
-                RoleID = 10,
+                RoleId = 10,
                 RoleUser = 0
             });
 

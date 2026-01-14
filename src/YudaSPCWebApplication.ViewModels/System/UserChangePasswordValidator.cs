@@ -8,8 +8,8 @@ namespace YudaSPCWebApplication.ViewModels.System
     public class UserChangePasswordValidator : AbstractValidator<UserChangePasswordRequest>
     {
         public UserChangePasswordValidator() {
-            RuleFor(x => x.UserID)
-                .GreaterThan(0).WithMessage("UserID must be a positive integer.");
+            RuleFor(x => x.UserId)
+                .GreaterThan(0).WithMessage("UserId must be a positive integer.");
             
             RuleFor(x => x.CurrentPassword)
                 .NotEmpty().WithMessage("Current password is required.");

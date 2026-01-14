@@ -2,7 +2,7 @@
 {
     public class UserChangePasswordRequest
     {
-        public required int UserID { get; set; }
+        public required int UserId { get; set; }
         public required string CurrentPassword { get; set; }
         public required string NewPassword { get; set; }
     }

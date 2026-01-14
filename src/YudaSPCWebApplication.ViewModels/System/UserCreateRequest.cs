@@ -7,7 +7,7 @@ namespace YudaSPCWebApplication.ViewModels.System
     public class UserCreateRequest
     {
 
-        public string? RoleID { get; set; }
+        public string? RoleId { get; set; }
 
         public required string EmailAddress { get; set; }
 
@@ -15,11 +15,11 @@ namespace YudaSPCWebApplication.ViewModels.System
 
         public required string Department { get; set; }
 
-        public required string StaffID { get; set; }
+        public required string StaffId { get; set; }
 
         public int? Enable { get; set; }
 
-        public string? SelectedAreaID { get; set; }
+        public string? SelectedAreaId { get; set; }
 
         public required string Password { get; set; }
     }

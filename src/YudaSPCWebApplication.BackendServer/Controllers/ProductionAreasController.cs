@@ -5,7 +5,7 @@ using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {
-    public class ProductionAreaController(ApplicationDbContext context) : ControllerBase
+    public class ProductionAreasController(ApplicationDbContext context) : ControllerBase
     {
         // Controller code will go here
 
@@ -20,7 +20,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         {
             var result = _context.ProductionAreas.ToList();
 
-            if (result == null) return NotFound("No production areas found.");
+            if (result == null || result.Count == 0) return NotFound("No production areas found.");
 
             var areaVms = result.Select(area => new ProductionAreaVm
             {
