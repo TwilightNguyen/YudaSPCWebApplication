@@ -6,6 +6,6 @@
         public string? Description { get; set; }
         public int RoleUser { get; set; }
         public int Level { get; set; }
-        public int RoleID { get; set; }
+        public int RoleId { get; set; }
     }
 }

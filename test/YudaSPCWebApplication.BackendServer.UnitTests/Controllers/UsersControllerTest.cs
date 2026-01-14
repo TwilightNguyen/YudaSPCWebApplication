@@ -222,10 +222,10 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                 EmailAddress = "user01@gmail.com",
                 FullName = "User 01",
                 Department = "IT",
-                StaffID = "U001",
+                StaffId = "U001",
                 Password = "Admin@123",
-                RoleID = "6",
-                SelectedAreaID = "1",
+                RoleId = "6",
+                SelectedAreaId = "1",
                 Enable = 1
             });
 
@@ -256,10 +256,10 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
                 EmailAddress = string.Empty,
                 FullName = "User 1",
                 Department = "IT",
-                StaffID = "U001",
+                StaffId = "U001",
                 Password = "Admin@123",
-                RoleID = "6",
-                SelectedAreaID = "1",
+                RoleId = "6",
+                SelectedAreaId = "1",
                 Enable = 1
             });
 
@@ -558,7 +558,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             {
                 CurrentPassword = "Admin@123",
                 NewPassword = "Admin@1234",
-                UserID = 1
+                UserId = 1
             });
 
             // Assert
@@ -586,7 +586,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             {
                 CurrentPassword = "Admin@123",
                 NewPassword = "Admin@1234",
-                UserID = 10
+                UserId = 10
             });
 
             // Assert
@@ -615,7 +615,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             {
                 CurrentPassword = "Wrong@123",
                 NewPassword = "Admin@1234",
-                UserID = 1
+                UserId = 1
             });
 
             // Assert

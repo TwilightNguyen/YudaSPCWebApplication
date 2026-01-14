@@ -5,8 +5,8 @@ namespace YudaSPCWebApplication.ViewModels.System
     public class UserValidator : AbstractValidator<UserCreateRequest>
     {
         public UserValidator() {
-            RuleFor(x => x.RoleID)
-                .MaximumLength(255).WithMessage("Role ID must not exceed 255 characters.");
+            RuleFor(x => x.RoleId)
+                .MaximumLength(255).WithMessage("Role Id must not exceed 255 characters.");
             
             RuleFor(x => x.EmailAddress)
                 .NotEmpty().WithMessage("Email address is required.")
@@ -21,15 +21,15 @@ namespace YudaSPCWebApplication.ViewModels.System
                 .NotEmpty().WithMessage("Department is required.")
                 .MaximumLength(100).WithMessage("Department must not exceed 100 characters.");
             
-            RuleFor(x => x.StaffID)
+            RuleFor(x => x.StaffId)
                 .NotEmpty().WithMessage("Staff ID is required.")
                 .MaximumLength(100).WithMessage("Staff ID must not exceed 100 characters.");
             
             RuleFor(x => x.Enable)
                 .InclusiveBetween(0, 1).WithMessage("Enable must be either 0 (disabled) or 1 (enabled).");
             
-            RuleFor(x => x.SelectedAreaID)
-                .MaximumLength(50).WithMessage("Selected Area ID must not exceed 50 characters.");
+            RuleFor(x => x.SelectedAreaId)
+                .MaximumLength(50).WithMessage("Selected Area Id must not exceed 50 characters.");
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage("Password is required.")

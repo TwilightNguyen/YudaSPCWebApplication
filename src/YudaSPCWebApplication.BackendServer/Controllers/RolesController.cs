@@ -11,15 +11,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "Bearer")]
-    public class RolesController : ControllerBase
+    public class RolesController(RoleManager<Role> roleManager) : ControllerBase
     {
-        private readonly RoleManager<Role> _roleManager;
-
-        public RolesController(RoleManager<Role> roleManager)
-        {
-            using var _ = _roleManager = roleManager;
-        }
-
+        private readonly RoleManager<Role> _roleManager = roleManager;
 
         /// <summary>
         ///  URL: /api/roles
@@ -86,7 +80,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 Description = role.StrDescription,
                 RoleUser = role.IntRoleUser ?? -1,
                 Level = role.IntLevel,
-                RoleID = role.IntRoleID
+                RoleId = role.IntRoleID
             }).ToList();
 
             return Ok(roleVms);
@@ -114,7 +108,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                     Description = role.StrDescription,
                     RoleUser = role.IntRoleUser ?? -1,
                     Level = role.IntLevel,
-                    RoleID = role.IntRoleID
+                    RoleId = role.IntRoleID
                 })];
 
             var paginaton = new Pagination<RoleVm>()
@@ -144,7 +138,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
             var roleVm = new RoleVm
             {
-                RoleID = role.IntRoleID,
+                RoleId = role.IntRoleID,
                 Name = role.StrRoleName ?? string.Empty,
                 Description = role.StrDescription,
                 RoleUser = role.IntRoleUser??-1,
@@ -168,7 +162,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (Id < 0 || Id != roleVm.RoleID)
+            if (Id < 0 || Id != roleVm.RoleId)
             {
                 return BadRequest("Role ID mismatch.");
             }
@@ -216,7 +210,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                     Description = role.StrDescription,
                     RoleUser = role.IntRoleUser ?? -1,
                     Level = role.IntLevel,
-                    RoleID = role.IntRoleID
+                    RoleId = role.IntRoleID
                 };
 
                 return Ok(roleVm);

@@ -13,7 +13,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "Bearer")]
-    public class UsersController(UserManager<User> userManager, RoleManager<Role> roleManager) : Controller
+    public class UsersController(UserManager<User> userManager, RoleManager<Role> roleManager) : ControllerBase
     {
         private readonly UserManager<User> _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         private readonly RoleManager<Role> _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
@@ -50,13 +50,13 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             {
                 StrFullName = request.FullName,
                 StrEmailAddress = request.EmailAddress,
-                StrRoleID = request.RoleID,
+                StrRoleID = request.RoleId,
                 IntEnable = request.Enable,
                 StrPassword = Convert.ToHexString(MD5.HashData(Encoding.UTF8.GetBytes(request.Password))),
                 IntUserID = maxIntuserId + 1,
                 StrDepartment = request.Department,
-                StrStaffID = request.StaffID,
-                StrSelectedAreaID = request.SelectedAreaID,
+                StrStaffID = request.StaffId,
+                StrSelectedAreaID = request.SelectedAreaId,
                 DtLastActivityTime = DateTime.UtcNow,
 
                 Id = Guid.NewGuid().ToString(),
@@ -225,7 +225,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest(ModelState);
             }
              
-            var user = _userManager.Users.FirstOrDefault(r => r.IntUserID == request.UserID);
+            var user = _userManager.Users.FirstOrDefault(r => r.IntUserID == request.UserId);
 
             if (user == null)
             {
