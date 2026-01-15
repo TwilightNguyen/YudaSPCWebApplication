@@ -7,7 +7,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "Bearer")]
-    public class CharacteristicController(ApplicationDbContext context) : ControllerBase
+    public class CharacteristicsController(ApplicationDbContext context) : ControllerBase
     {
         private readonly ApplicationDbContext _context = context;
     }

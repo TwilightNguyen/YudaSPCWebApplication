@@ -13,15 +13,18 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 
         public ProductionAreasControllerTest()
         {
-            _context = new InMemoryDbContextProductionArea().GetApplicationDbContext();
-            _context.ProductionAreas.AddRange(new List<ProductionArea>
-            {
-                new() { IntID = 1, StrNameArea = "Tape" },
-                new() { IntID = 2, StrNameArea = "Layout" },
-                new() { IntID = 3, StrNameArea = "Block Vial" }
-            });
+            _context = InMemoryDbContext.GetApplicationDbContext();
 
-            _context.SaveChangesAsync().ConfigureAwait(true);
+            InMemoryDbContext.SeedProductionAreas(_context);
+
+            //_context.ProductionAreas.AddRange(new List<ProductionArea>
+            //{
+            //    new() { IntID = 1, StrNameArea = "Tape" },
+            //    new() { IntID = 2, StrNameArea = "Layout" },
+            //    new() { IntID = 3, StrNameArea = "Block Vial" }
+            //});
+
+            //_context.SaveChangesAsync().ConfigureAwait(true);
         }
 
 

@@ -66,9 +66,15 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         /// 
-        [HttpGet("ByAreaId")]
-        public async Task<IActionResult> ByAreaId(int AreaId)
+        [HttpGet("GetByAreaId/{AreaId}")]
+        public async Task<IActionResult> GetByAreaId(int AreaId)
         {
+            var area = _context.ProductionAreas.FirstOrDefault(r => r.IntID == AreaId);
+            if (area == null)
+            {
+                return NotFound("Production Area not found.");
+            }
+
             var result = _context.Processes.Where(x => x.IntAreaID == AreaId).ToList();
 
             if (result == null || result.Count == 0) return NotFound("No processes found.");
