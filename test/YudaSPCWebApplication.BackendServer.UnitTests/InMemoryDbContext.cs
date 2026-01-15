@@ -169,5 +169,16 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
+
+        public static void SeedProcessLines(ApplicationDbContext context)
+        {
+            context.ProcessLines.AddRange(new List<ProcessLine>
+            {
+                new() { IntID = 1, StrProcessLineName = "Process A Line A", StrProcessLineCode = "A0A", IntProcessID = 1 },
+                new() { IntID = 2, StrProcessLineName = "Process A Line B", StrProcessLineCode = "A0B", IntProcessID = 1 },
+                new() { IntID = 3, StrProcessLineName = "Process B Line C", StrProcessLineCode = "B0C", IntProcessID = 2 }
+            });
+            context.SaveChanges();
+        }
     }
 }
