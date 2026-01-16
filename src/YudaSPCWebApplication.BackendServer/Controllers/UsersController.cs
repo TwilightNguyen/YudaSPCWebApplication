@@ -140,7 +140,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// Url: /api/users/{Id}
         /// </summary>
         /// 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id:int}")]
         public async Task<IActionResult> GetById(int Id)
         {
             var user = _userManager.Users.FirstOrDefault(r => r.IntUserID == Id);
@@ -169,7 +169,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// Url: /api/users/{Id}
         /// </summary>
         /// 
-        [HttpPut("{Id}")]
+        [HttpPut("{Id:int}")]
         public async Task<IActionResult> UpdateUser(int Id, UserVm userVm)
         {
             if (!ModelState.IsValid)
@@ -391,7 +391,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// Url: /api/users/{id}
         /// </summary>
         /// 
-        [HttpDelete("{Id}")]
+        [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteUser(int Id)
         {
             var user = _userManager.Users.FirstOrDefault(r => r.IntUserID == Id);

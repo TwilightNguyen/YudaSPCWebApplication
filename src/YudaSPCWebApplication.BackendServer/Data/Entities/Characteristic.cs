@@ -29,7 +29,7 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
         public string? StrCharacteristicUnit { get; set; }
 
         [Column("boolDeleted")]
-        public bool? BoolDeleted { get; set; }
+        public bool? BoolDeleted { get; set; } = false;
 
         [Column("intDefectRateLimit")]
         public int? IntDefectRateLimit { get; set; }

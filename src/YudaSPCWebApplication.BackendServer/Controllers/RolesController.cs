@@ -126,7 +126,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         /// 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id:int}")]
         public async Task<IActionResult> GetById(int Id)
         {
             var role = _roleManager.Roles.FirstOrDefault(r => r.IntRoleID == Id);
@@ -154,7 +154,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         /// 
-        [HttpPut("{Id}")]
+        [HttpPut("{Id:int}")]
         public async Task<IActionResult> UpdateRole(int Id, RoleVm roleVm)
         {
             if (!ModelState.IsValid)
@@ -193,7 +193,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             }
         }
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteRole(int Id)
         {
             var role = _roleManager.Roles.FirstOrDefault(r => r.IntRoleID == Id);

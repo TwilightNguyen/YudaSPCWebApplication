@@ -42,7 +42,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         /// 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id:int}")]
         public async Task<IActionResult> GetById(int Id)
         {
             var line = _context.ProcessLines.FirstOrDefault(r => r.IntID == Id);
@@ -68,7 +68,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         /// 
-        [HttpGet("GetByProcessId/{ProcessId}")]
+        [HttpGet("GetByProcessId/{ProcessId:int}")]
         public async Task<IActionResult> GetByProcessId(int ProcessId)
         {
             var area = _context.Processes.FirstOrDefault(r => r.IntID == ProcessId);

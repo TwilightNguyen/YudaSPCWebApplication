@@ -37,7 +37,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         /// 
-        [HttpGet("{Id}")]
+        [HttpGet("{Id:int}")]
         public async Task<IActionResult> GetById(int Id)
         {
             var area = _context.ProductionAreas.FirstOrDefault(r => r.IntID == Id);
