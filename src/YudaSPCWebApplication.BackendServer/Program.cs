@@ -1,16 +1,17 @@
-using FluentValidation;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using System.IdentityModel.Tokens.Jwt;
+using Microsoft.OpenApi.Models;
 using Serilog;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
+using System.IdentityModel.Tokens.Jwt;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.BackendServer.IdentityServer;
 using YudaSPCWebApplication.BackendServer.Services;
 using YudaSPCWebApplication.ViewModels.System;
-using Microsoft.OpenApi.Models;
 
 
 Log.Logger = new LoggerConfiguration()
@@ -20,6 +21,21 @@ Log.Logger = new LoggerConfiguration()
 JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
+
+
+
+// 1) Cấu hình Forwarded Headers
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+
+    // Khuyến nghị: chỉ định proxy đáng tin (tăng bảo mật). Ví dụ:
+    // options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
+    // options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("10.0.0.0"), 8));
+
+    // Nếu chuỗi X-Forwarded-For có nhiều proxy, bạn có thể giới hạn số cấp
+    // options.ForwardLimit = 2; // ví dụ
+});
 
 // Add DB context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -50,6 +66,11 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 // Register DbInitializer (can remain Transient)
 builder.Services.AddTransient<DbInitializer>();
 builder.Services.AddTransient<IEmailSender, EmailSenderService>();
+
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<IClientIpAccessorService, ClientIpAccessorService>();
+
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -196,6 +217,11 @@ using (var scope = app.Services.CreateScope())
 //{
 //    app.MapOpenApi();
 //}
+
+
+// 2) Đặt UseForwardedHeaders càng sớm càng tốt (trước auth, rate-limiting, v.v.)
+app.UseForwardedHeaders();
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
