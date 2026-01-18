@@ -180,7 +180,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
-         
+
         public static void SeedEventLogs(ApplicationDbContext context)
         {
             context.EventLogs.AddRange(new List<EventLog>
@@ -188,6 +188,17 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
                 new() { IntEventID = 1, DtEventTime = DateTime.UtcNow.AddHours(-2), StrEventCode = "E001", StrEvent = "User Admin logged in", StrStation = "192.168.1.12" },
                 new() { IntEventID = 2, DtEventTime = DateTime.UtcNow.AddHours(-1), StrEventCode = "E002", StrEvent = "User Admin logged out", StrStation = "192.168.1.13" },
                 new() { IntEventID = 3, DtEventTime = DateTime.UtcNow, StrEventCode = "E003", StrEvent = "Error occurred", StrStation = "192.168.1.12" }
+            });
+            context.SaveChanges();
+        }
+
+        public static void SeedCharacteristics(ApplicationDbContext context)
+        {
+            context.Characteristics.AddRange(new List<Characteristic>
+            {
+                new() { IntID = 1, StrCharacteristicName = "Characteristic A", IntProcessID = 1, IntMeaTypeID = 1, IntCharacteristicType = 0, IntDecimals = 2, StrCharacteristicUnit = "G", IntDefectRateLimit = 10, IntEmailEventModel = 2, IntEventEnable = 1,BoolDeleted = false},
+                new() { IntID = 2, StrCharacteristicName = "Characteristic B", IntProcessID = 1, IntMeaTypeID = 1, IntCharacteristicType = 0, IntDecimals = 2, StrCharacteristicUnit = "KG", IntDefectRateLimit = null, IntEmailEventModel = 0, IntEventEnable = 0,BoolDeleted = false},
+                new() { IntID = 3, StrCharacteristicName = "Characteristic C", IntProcessID = 2, IntMeaTypeID = 1, IntCharacteristicType = 0, IntDecimals = 2, StrCharacteristicUnit = "ML", IntDefectRateLimit = null, IntEmailEventModel = 1, IntEventEnable = 1,BoolDeleted = false},
             });
             context.SaveChanges();
         }

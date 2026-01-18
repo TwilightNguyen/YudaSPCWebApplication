@@ -132,19 +132,19 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
             List<CharacteristicVm> items = [.. query.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .Select(role => new CharacteristicVm
+                .Select(characteristic => new CharacteristicVm
                 {
-                    Id = role.IntID,
-                    CharacteristicName = role.StrCharacteristicName,
-                    MeaTypeId = role.IntMeaTypeID,
-                    ProcessId = role.IntProcessID,
-                    CharacteristicType = role.IntCharacteristicType,
-                    CharacteristicUnit = role.StrCharacteristicUnit,
-                    DefectRateLimit = role.IntDefectRateLimit,
-                    EventEnable = role.IntEventEnable,
-                    EmailEventModel = role.IntEmailEventModel,
-                    Decimals = role.IntDecimals,
-                    Deleted = role.BoolDeleted,
+                    Id = characteristic.IntID,
+                    CharacteristicName = characteristic.StrCharacteristicName,
+                    MeaTypeId = characteristic.IntMeaTypeID,
+                    ProcessId = characteristic.IntProcessID,
+                    CharacteristicType = characteristic.IntCharacteristicType,
+                    CharacteristicUnit = characteristic.StrCharacteristicUnit,
+                    DefectRateLimit = characteristic.IntDefectRateLimit,
+                    EventEnable = characteristic.IntEventEnable,
+                    EmailEventModel = characteristic.IntEmailEventModel,
+                    Decimals = characteristic.IntDecimals,
+                    Deleted = characteristic.BoolDeleted,
                 })];
 
             var paginaton = new Pagination<CharacteristicVm>()
@@ -261,6 +261,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             characteristic.IntEventEnable = characterisitcVm.EventEnable;
             characteristic.IntEmailEventModel = characterisitcVm.EmailEventModel;
             characteristic.IntDecimals = characterisitcVm.Decimals;
+
+            _context.Characteristics.Update(characteristic);
 
             var result = await _context.SaveChangesAsync();
             if (result > 0)
