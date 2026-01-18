@@ -6,7 +6,7 @@ namespace YudaSPCWebApplication.ViewModels.System
 {
     public class EventLogVm
     {
-        public int Id { get; set; }
+        public required int Id { get; set; }
 
         public DateTime? EventTime { get; set; }
 
