@@ -77,7 +77,20 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return CreatedAtAction(
                     nameof(GetById),
                     new { Id = characteristic.IntID }, 
-                    characteristic
+                    new CharacteristicVm
+                    {
+                        Id = characteristic.IntID,
+                        CharacteristicName = characteristic.StrCharacteristicName,
+                        MeaTypeId = characteristic.IntMeaTypeID,
+                        ProcessId = characteristic.IntProcessID,
+                        CharacteristicType = characteristic.IntCharacteristicType,
+                        CharacteristicUnit = characteristic.StrCharacteristicUnit,
+                        DefectRateLimit =  characteristic.IntDefectRateLimit,
+                        EventEnable = characteristic.IntEventEnable,
+                        EmailEventModel = characteristic.IntEmailEventModel,
+                        Decimals = characteristic.IntDecimals,
+                        Deleted = characteristic.BoolDeleted,
+                    }
                 );
             }
             else

@@ -19,7 +19,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// </summary> 
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateCharacteristic([FromBody] MeasureTypeCreateRequest request)
+        public async Task<IActionResult> CreateMeasureType([FromBody] MeasureTypeCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,7 +53,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return CreatedAtAction(
                     nameof(GetById),
                     new { Id = measureType.IntID },
-                    measureType
+                    new MeasureTypeVm
+                    {
+                        Id = measureType.IntID,
+                        Name = measureType.StrMeaType ?? string.Empty,
+                    }
                 );
             }
             else
@@ -179,7 +183,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return NoContent();
+                return Ok(new MeasureTypeVm
+                {
+                    Id = measureType.IntID,
+                    Name = measureType.StrMeaType ?? string.Empty,
+                });
             }
             else
             {

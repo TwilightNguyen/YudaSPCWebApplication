@@ -192,6 +192,17 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             context.SaveChanges();
         }
 
+        public static void SeedMeasureTypes(ApplicationDbContext context)
+        {
+            context.MeasureTypes.AddRange(new List<MeasureType>
+            {
+                new() { IntID = 1, StrMeaType = "Length" },
+                new() { IntID = 2, StrMeaType = "Weight" },
+                new() { IntID = 3, StrMeaType = "Temperature" }
+            });
+            context.SaveChanges();
+        }
+
         public static void SeedCharacteristics(ApplicationDbContext context)
         {
             context.Characteristics.AddRange(new List<Characteristic>
