@@ -67,6 +67,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                     Event = role.StrEvent,
                     Station = role.StrStation,
                 })];
+            
+            if (items.Count == 0)
+            {
+                return NotFound("No event logs found.");
+            }
 
             var paginaton = new Pagination<EventLogVm>()
             {

@@ -31,7 +31,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
                 new() { IntID = 1, StrNameArea = "Tape" },
                 new() { IntID = 2, StrNameArea = "Layout" },
                 new() { IntID = 3, StrNameArea = "Block Vial" }
-            }); 
+            });
             context.SaveChanges();
         }
 
@@ -177,6 +177,17 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
                 new() { IntID = 1, StrProcessLineName = "Process A Line A", StrProcessLineCode = "A0A", IntProcessID = 1 },
                 new() { IntID = 2, StrProcessLineName = "Process A Line B", StrProcessLineCode = "A0B", IntProcessID = 1 },
                 new() { IntID = 3, StrProcessLineName = "Process B Line C", StrProcessLineCode = "B0C", IntProcessID = 2 }
+            });
+            context.SaveChanges();
+        }
+         
+        public static void SeedEventLogs(ApplicationDbContext context)
+        {
+            context.EventLogs.AddRange(new List<EventLog>
+            {
+                new() { IntEventID = 1, DtEventTime = DateTime.UtcNow.AddHours(-2), StrEventCode = "E001", StrEvent = "User Admin logged in", StrStation = "192.168.1.12" },
+                new() { IntEventID = 2, DtEventTime = DateTime.UtcNow.AddHours(-1), StrEventCode = "E002", StrEvent = "User Admin logged out", StrStation = "192.168.1.13" },
+                new() { IntEventID = 3, DtEventTime = DateTime.UtcNow, StrEventCode = "E003", StrEvent = "Error occurred", StrStation = "192.168.1.12" }
             });
             context.SaveChanges();
         }

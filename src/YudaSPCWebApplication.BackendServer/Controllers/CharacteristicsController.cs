@@ -42,7 +42,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest("Invalid Process.");
             }
 
-            var charExists = _context.Characteristices.FirstOrDefault(x => 
+            var charExists = _context.Characteristics.FirstOrDefault(x => 
                 x.StrCharacteristicName == request.CharacteristicName && 
                 x.IntProcessID == request.ProcessId &&
                 x.BoolDeleted == false);
@@ -68,7 +68,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             };
 
 
-            _context.Characteristices.Add(characteristic);
+            _context.Characteristics.Add(characteristic);
 
             var result = await _context.SaveChangesAsync();
 
@@ -93,7 +93,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var characteristics = _context.Characteristices.Where(r => r.BoolDeleted == false).ToList();
+            var characteristics = _context.Characteristics.Where(r => r.BoolDeleted == false).ToList();
 
             if (characteristics == null) return NotFound("No characteristics found.");
 
@@ -123,7 +123,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpGet("Pagging")]
         public async Task<IActionResult> GetPaging(string? filter, int pageIndex, int pageSize)
         {
-            var query = _context.Characteristices.AsQueryable();
+            var query = _context.Characteristics.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
@@ -165,7 +165,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpGet("{Id:int}")]
         public async Task<IActionResult> GetById(int Id)
         {
-            var characteristic = _context.Characteristices.FirstOrDefault(r => r.IntID == Id && r.BoolDeleted == false);
+            var characteristic = _context.Characteristics.FirstOrDefault(r => r.IntID == Id && r.BoolDeleted == false);
 
             if(characteristic == null)
             {
@@ -200,7 +200,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpGet("/GetByProcessId/{ProcessId:int}")]
         public async Task<IActionResult> GetByProcessId(int ProcessId)
         {
-            var characteristics = _context.Characteristices.Where(r => r.IntProcessID == ProcessId && r.BoolDeleted == false);
+            var characteristics = _context.Characteristics.Where(r => r.IntProcessID == ProcessId && r.BoolDeleted == false);
 
             if (characteristics == null)
             {
@@ -245,7 +245,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest("Invalid characteristic ID.");
             }
 
-            var characteristic = _context.Characteristices.FirstOrDefault(r => r.IntID == Id && r.BoolDeleted == false);
+            var characteristic = _context.Characteristics.FirstOrDefault(r => r.IntID == Id && r.BoolDeleted == false);
 
             if (characteristic == null)
             {
@@ -276,7 +276,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteCharacteristic(int Id)
         {
-            var characteristic = _context.Characteristices.FirstOrDefault(r => r.IntID == Id && r.BoolDeleted == false);
+            var characteristic = _context.Characteristics.FirstOrDefault(r => r.IntID == Id && r.BoolDeleted == false);
             
             if (characteristic == null)
             {
