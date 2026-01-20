@@ -7,25 +7,32 @@ using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {
-    public class ProductionAreasControllerTest
+    public class ProductionAreasControllerTest : IAsyncLifetime
     {
-        private readonly ApplicationDbContext _context;
+        public required ApplicationDbContext _context;
 
-        public ProductionAreasControllerTest()
+        //public ProductionAreasControllerTest()
+        //{
+        //    _context = InMemoryDbContext.GetApplicationDbContext();
+
+        //    InMemoryDbContext.SeedProductionAreas(_context);
+        //}
+
+
+        public async Task InitializeAsync()
         {
             _context = InMemoryDbContext.GetApplicationDbContext();
-
             InMemoryDbContext.SeedProductionAreas(_context);
-
-            //_context.ProductionAreas.AddRange(new List<ProductionArea>
-            //{
-            //    new() { IntID = 1, StrNameArea = "Tape" },
-            //    new() { IntID = 2, StrNameArea = "Layout" },
-            //    new() { IntID = 3, StrNameArea = "Block Vial" }
-            //});
-
-            //_context.SaveChangesAsync().ConfigureAwait(true);
+            await Task.CompletedTask;
         }
+
+
+        public async Task DisposeAsync()
+        {
+            try { await _context.Database.EnsureDeletedAsync(); } catch { /* ignore */ }
+            await _context.DisposeAsync();
+        }
+
 
 
         [Fact]

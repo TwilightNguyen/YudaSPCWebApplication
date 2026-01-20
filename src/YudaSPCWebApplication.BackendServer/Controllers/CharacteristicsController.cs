@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.PortableExecutable;
@@ -42,6 +43,23 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest("Invalid Process.");
             }
 
+            var measType = _context.MeasureTypes.FirstOrDefault(m => m.IntID == request.MeaTypeId);
+            
+            if (measType == null)
+            {
+                return BadRequest("Invalid Measure Type.");
+            }
+
+            if(!(new[] { 0, 1 }).Contains(request.CharacteristicType))
+            {
+                return BadRequest("Invalid Characteristic Type.");
+            }
+
+            if (request.Decimals < 0)
+            {
+                return BadRequest("Decimals cannot be negative.");
+            }
+
             var charExists = _context.Characteristics.FirstOrDefault(x => 
                 x.StrCharacteristicName == request.CharacteristicName && 
                 x.IntProcessID == request.ProcessId &&
@@ -66,7 +84,6 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 IntDecimals = request.Decimals,
                 BoolDeleted = false,
             };
-
 
             _context.Characteristics.Add(characteristic);
 
@@ -215,12 +232,12 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         {
             var characteristics = _context.Characteristics.Where(r => r.IntProcessID == ProcessId && r.BoolDeleted == false);
 
-            if (characteristics == null)
+            if (characteristics == null || characteristics?.Count() == 0)
             {
                 return NotFound("No characteristics found for the specified process.");
             }
 
-            var characteristicVms = characteristics.Select(characteristic => new CharacteristicVm
+            var characteristicVms = characteristics?.Select(characteristic => new CharacteristicVm
             {
                 Id = characteristic.IntID,
                 CharacteristicName = characteristic.StrCharacteristicName,
@@ -265,9 +282,41 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return NotFound("Characteristic not found.");
             }
 
+            if (string.IsNullOrWhiteSpace(characterisitcVm.CharacteristicName))
+            {
+                return BadRequest("Characteristic name cannot be empty.");
+            }
+
+            var measType = _context.MeasureTypes.FirstOrDefault(m => m.IntID == characterisitcVm.MeaTypeId);
+
+            if (measType == null)
+            {
+                return BadRequest("Invalid Measure Type.");
+            }
+
+            if (!(new[] { 0, 1 }).Contains(characterisitcVm.CharacteristicType??-1))
+            {
+                return BadRequest("Invalid Characteristic Type.");
+            }
+
+            if (characterisitcVm.Decimals == null || characterisitcVm.Decimals < 0)
+            {
+                return BadRequest("Decimals cannot be negative.");
+            }
+
+            var charExists = _context.Characteristics.FirstOrDefault(x =>
+                x.StrCharacteristicName == characterisitcVm.CharacteristicName &&
+                x.IntProcessID == characterisitcVm.ProcessId &&
+                x.BoolDeleted == false &&
+                x.IntID != characterisitcVm.Id);
+
+            if (charExists != null)
+            {
+                return BadRequest("Characteristic with the same name already exists in this process.");
+            }
+
             characteristic.StrCharacteristicName = characterisitcVm.CharacteristicName;
             characteristic.IntMeaTypeID = characterisitcVm.MeaTypeId;
-            characteristic.IntProcessID = characterisitcVm.ProcessId;
             characteristic.IntCharacteristicType = characterisitcVm.CharacteristicType;
             characteristic.StrCharacteristicUnit = characterisitcVm.CharacteristicUnit;
             characteristic.IntDefectRateLimit = characterisitcVm.DefectRateLimit;
@@ -280,7 +329,20 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                return NoContent();
+                return Ok(new CharacteristicVm
+                {
+                    Id = characteristic.IntID,
+                    CharacteristicName = characteristic.StrCharacteristicName,
+                    MeaTypeId = characteristic.IntMeaTypeID,
+                    ProcessId = characteristic.IntProcessID,
+                    CharacteristicType = characteristic.IntCharacteristicType,
+                    CharacteristicUnit = characteristic.StrCharacteristicUnit,
+                    DefectRateLimit = characteristic.IntDefectRateLimit,
+                    EventEnable = characteristic.IntEventEnable,
+                    EmailEventModel = characteristic.IntEmailEventModel,
+                    Decimals = characteristic.IntDecimals,
+                    Deleted = characteristic.BoolDeleted,
+                });
             }
             else
             {

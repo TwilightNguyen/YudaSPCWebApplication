@@ -9,15 +9,30 @@ using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {
-    public class ProcessesControllerTest
+    public class ProcessesControllerTest : IAsyncLifetime
     {
-        private readonly ApplicationDbContext _context;
+        public required ApplicationDbContext _context;
 
-        public ProcessesControllerTest()
+        //public ProcessesControllerTest()
+        //{
+        //    _context = InMemoryDbContext.GetApplicationDbContext();
+        //    InMemoryDbContext.SeedProductionAreas(_context);
+        //    InMemoryDbContext.SeedProcesses(_context);
+        //}
+
+        public async Task InitializeAsync()
         {
             _context = InMemoryDbContext.GetApplicationDbContext();
             InMemoryDbContext.SeedProductionAreas(_context);
             InMemoryDbContext.SeedProcesses(_context);
+            await Task.CompletedTask;
+        }
+
+
+        public async Task DisposeAsync()
+        {
+            try { await _context.Database.EnsureDeletedAsync(); } catch { /* ignore */ }
+            await _context.DisposeAsync();
         }
 
 

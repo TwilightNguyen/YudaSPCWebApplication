@@ -6,13 +6,28 @@ using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {
-    public class MeasureTypesControllerTest
+    public class MeasureTypesControllerTest : IAsyncLifetime
     {
-        public readonly ApplicationDbContext _context;
-        public MeasureTypesControllerTest()
+        public required ApplicationDbContext _context;
+
+        //public MeasureTypesControllerTest()
+        //{
+        //    _context = InMemoryDbContext.GetApplicationDbContext();
+        //    InMemoryDbContext.SeedMeasureTypes(_context);
+        //}
+
+        public async Task InitializeAsync()
         {
             _context = InMemoryDbContext.GetApplicationDbContext();
             InMemoryDbContext.SeedMeasureTypes(_context);
+            await Task.CompletedTask;
+        }
+
+
+        public async Task DisposeAsync()
+        {
+            try { await _context.Database.EnsureDeletedAsync(); } catch { /* ignore */ }
+            await _context.DisposeAsync();
         }
 
         [Fact]
