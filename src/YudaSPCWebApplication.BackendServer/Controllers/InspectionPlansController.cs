@@ -260,6 +260,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Url: /api/inspectionplans/{Id}
+        /// </summary>
+        /// <returns></returns>
+        /// 
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteInspectionPlan(int Id)
         {

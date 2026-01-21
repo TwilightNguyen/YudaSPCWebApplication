@@ -213,5 +213,16 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
+
+        public static void SeedInspectionPlans(ApplicationDbContext context)
+        {
+            context.InspectionPlans.AddRange(new List<InspectionPlan>
+            {
+                new() { IntID = 1, StrInspPlanName = "Inspection Plan A", IntAreaID = 1, BoolDeleted = false },
+                new() { IntID = 2, StrInspPlanName = "Inspection Plan B", IntAreaID = 1, BoolDeleted = false },
+                new() { IntID = 3, StrInspPlanName = "Inspection Plan C", IntAreaID = 2,  BoolDeleted = false }
+            });
+            context.SaveChanges();
+        }
     }
 }
