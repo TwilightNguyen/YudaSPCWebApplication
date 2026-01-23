@@ -14,6 +14,7 @@ namespace YudaSPCWebApplication.BackendServer.Data
         public virtual DbSet<ProductionArea> ProductionAreas { get; set; }
         public virtual DbSet<InspectionPlanType> InspPlanTypes { get; set; }
         public virtual DbSet<InspectionPlan> InspectionPlans { get; set; }
+        public virtual DbSet<InspectionPlanSub> InspectionPlanSubs { get; set; }
         public virtual DbSet<InspectionPlanData> InspectionPlanDatas { get; set; }
         public virtual DbSet<InspectionPlanTracking> InspectionPlanTracking { get; set; }
         public virtual DbSet<ProductionData> ProductionDatas { get; set; }

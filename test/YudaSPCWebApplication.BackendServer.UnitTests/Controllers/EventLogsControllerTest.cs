@@ -9,11 +9,11 @@ using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {
-    public class EventLogControllerTest
+    public class EventLogsControllerTest
     {
         private readonly ApplicationDbContext _context;
 
-        public EventLogControllerTest()
+        public EventLogsControllerTest()
         {
             _context = InMemoryDbContext.GetApplicationDbContext();
             InMemoryDbContext.SeedEventLogs(_context);

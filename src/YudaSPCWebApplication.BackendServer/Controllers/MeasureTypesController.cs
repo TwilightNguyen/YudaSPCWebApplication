@@ -10,9 +10,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Policy = "Bearer")]
-    public class MeasureTypesController(ApplicationDbContext _context) : ControllerBase
+    public class MeasureTypesController(ApplicationDbContext context) : ControllerBase
     {
-        ApplicationDbContext _context = _context;
+        private readonly ApplicationDbContext _context = context;
 
         /// <summary>
         ///  URL: /api/measuretypes

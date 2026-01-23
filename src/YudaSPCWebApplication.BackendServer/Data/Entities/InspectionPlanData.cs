@@ -11,11 +11,17 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
         [Column("intID")]
         public int IntID { get; set; }
 
-        [Column("intInspPlanID")]
-        public int? IntInspPlanID { get; set; }
+        [Column("intInspPlanSubID")]
+        public int? IntInspPlanSubID { get; set; }
 
         [Column("intCharacteristicID")]
         public int? IntCharacteristicID { get; set; }
+
+        [Column("ftLSL")]
+        public double? FtLSL { get; set; }
+
+        [Column("ftUSL")]
+        public double? FtUSL { get; set; }
 
         [Column("ftLCL")]
         public double? FtLCL { get; set; }
@@ -23,20 +29,11 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
         [Column("ftUCL")]
         public double? FtUCL { get; set; }
 
-        [Column("ftCLS3")]
-        public double? FtLCLS3 { get; set; }
-
-        [Column("ftCLS3")]
-        public double? FtUCLS3 { get; set; }
-
         [Column("boolSPCChart")]
         public bool? BoolSPCChart { get; set; }
 
         [Column("boolDataEntry")]
         public bool? BoolDataEntry { get; set; }
-
-        [Column("intPlanTypeID")]
-        public int? IntPlanTypeID { get; set; }
 
         [Column("intPlanState")]
         public int? IntPlanState { get; set; }

@@ -6,7 +6,7 @@ using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {
-    public class InspectionPlanControllerTest : IAsyncLifetime
+    public class InspectionPlansControllerTest : IAsyncLifetime
     {
         public required ApplicationDbContext _context;
 

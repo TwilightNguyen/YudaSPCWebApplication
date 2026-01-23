@@ -224,5 +224,28 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
+
+        public static void SeedInspPlanTypes(ApplicationDbContext context)
+        {
+            context.InspPlanTypes.AddRange(new List<InspectionPlanType>
+            {
+                new() { IntID = -1, StrPlanTypeName = "[ None ]" },
+                new() { IntID = 1, StrPlanTypeName = "FPI" },
+                new() { IntID = 2, StrPlanTypeName = "IPQC" },
+                new() { IntID = 3, StrPlanTypeName = "OQC" }
+            });
+            context.SaveChanges();
+        }
+
+        public static void SeedInspectionPlanSubs(ApplicationDbContext context)
+        {
+            context.InspectionPlanSubs.AddRange(new List<InspectionPlanSub>
+            {
+                new() { IntID = 1, IntInspPlanID = 1, IntPlanTypeID = 1, DtCreateTime = DateTime.UtcNow, BoolDeleted = false },
+                new() { IntID = 2, IntInspPlanID = 1, IntPlanTypeID = 2, DtCreateTime = DateTime.UtcNow, BoolDeleted = false },
+                new() { IntID = 3, IntInspPlanID = 2, IntPlanTypeID = 1, DtCreateTime = DateTime.UtcNow, BoolDeleted = false }
+            });
+            context.SaveChanges();
+        }
     }
 }

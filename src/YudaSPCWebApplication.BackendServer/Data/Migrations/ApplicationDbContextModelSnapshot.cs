@@ -284,6 +284,180 @@ namespace YudaSPCWebApplication.BackendServer.Data.Migrations
                     b.ToTable("tbEventRoles");
                 });
 
+            modelBuilder.Entity("YudaSPCWebApplication.BackendServer.Data.Entities.InspectionPlan", b =>
+                {
+                    b.Property<int>("IntID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("intID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IntID"));
+
+                    b.Property<bool?>("BoolDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnName("boolDeleted");
+
+                    b.Property<DateTime?>("DtCreateTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("dtCreateTime");
+
+                    b.Property<DateTime?>("DtUpdateTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("dtUpdateTime");
+
+                    b.Property<int?>("IntAreaID")
+                        .HasColumnType("int")
+                        .HasColumnName("intAreaID");
+
+                    b.Property<string>("StrInspPlanName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("strInspPlanName");
+
+                    b.HasKey("IntID");
+
+                    b.ToTable("tbInspectionPlan");
+                });
+
+            modelBuilder.Entity("YudaSPCWebApplication.BackendServer.Data.Entities.InspectionPlanData", b =>
+                {
+                    b.Property<int>("IntID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("intID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IntID"));
+
+                    b.Property<bool?>("BoolDataEntry")
+                        .HasColumnType("bit")
+                        .HasColumnName("boolDataEntry");
+
+                    b.Property<bool?>("BoolDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnName("boolDeleted");
+
+                    b.Property<bool?>("BoolSPCChart")
+                        .HasColumnType("bit")
+                        .HasColumnName("boolSPCChart");
+
+                    b.Property<bool?>("BoolSpkControl")
+                        .HasColumnType("bit")
+                        .HasColumnName("boolSpkControl");
+
+                    b.Property<double?>("FtCpkMax")
+                        .HasColumnType("float")
+                        .HasColumnName("ftCpkMax");
+
+                    b.Property<double?>("FtCpkMin")
+                        .HasColumnType("float")
+                        .HasColumnName("ftCpkMin");
+
+                    b.Property<double?>("FtLCL")
+                        .HasColumnType("float")
+                        .HasColumnName("ftLCL");
+
+                    b.Property<double?>("FtLSL")
+                        .HasColumnType("float")
+                        .HasColumnName("ftLSL");
+
+                    b.Property<double?>("FtPercentControlLimit")
+                        .HasColumnType("float")
+                        .HasColumnName("ftPercentControlLimit");
+
+                    b.Property<double?>("FtUCL")
+                        .HasColumnType("float")
+                        .HasColumnName("ftUCL");
+
+                    b.Property<double?>("FtUSL")
+                        .HasColumnType("float")
+                        .HasColumnName("ftUSL");
+
+                    b.Property<int?>("IntCharacteristicID")
+                        .HasColumnType("int")
+                        .HasColumnName("intCharacteristicID");
+
+                    b.Property<int?>("IntInspPlanSubID")
+                        .HasColumnType("int")
+                        .HasColumnName("intInspPlanSubID");
+
+                    b.Property<int?>("IntPlanState")
+                        .HasColumnType("int")
+                        .HasColumnName("intPlanState");
+
+                    b.Property<string>("StrSampleSize")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("strSampleSize");
+
+                    b.HasKey("IntID");
+
+                    b.ToTable("tbInspectionPlanData");
+                });
+
+            modelBuilder.Entity("YudaSPCWebApplication.BackendServer.Data.Entities.InspectionPlanSub", b =>
+                {
+                    b.Property<int>("IntID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("intID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IntID"));
+
+                    b.Property<bool>("BoolDeleted")
+                        .HasColumnType("bit")
+                        .HasColumnName("boolDeleted");
+
+                    b.Property<DateTime>("DtCreateTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("dtCreateTime");
+
+                    b.Property<int>("IntInspPlanID")
+                        .HasColumnType("int")
+                        .HasColumnName("intInspPlanID");
+
+                    b.Property<int>("IntPlanTypeID")
+                        .HasColumnType("int")
+                        .HasColumnName("intPlanTypeID");
+
+                    b.HasKey("IntID");
+
+                    b.ToTable("tbInspectionPlanSub");
+                });
+
+            modelBuilder.Entity("YudaSPCWebApplication.BackendServer.Data.Entities.InspectionPlanTracking", b =>
+                {
+                    b.Property<int>("IntID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("intID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IntID"));
+
+                    b.Property<DateTime?>("DtUpdateTime")
+                        .HasColumnType("datetime")
+                        .HasColumnName("dtCreateTime");
+
+                    b.Property<int?>("IntInspPlanID")
+                        .HasColumnType("int")
+                        .HasColumnName("intInspPlanID");
+
+                    b.Property<int?>("IntPlanState")
+                        .HasColumnType("int")
+                        .HasColumnName("intPlanState");
+
+                    b.Property<int?>("IntPlanTypeID")
+                        .HasColumnType("int")
+                        .HasColumnName("intCharacteristicID");
+
+                    b.Property<int?>("IntUserID")
+                        .HasColumnType("int")
+                        .HasColumnName("intUserID");
+
+                    b.HasKey("IntID");
+
+                    b.ToTable("tbInspectionPlanTracking");
+                });
+
             modelBuilder.Entity("YudaSPCWebApplication.BackendServer.Data.Entities.InspectionPlanType", b =>
                 {
                     b.Property<int>("IntID")

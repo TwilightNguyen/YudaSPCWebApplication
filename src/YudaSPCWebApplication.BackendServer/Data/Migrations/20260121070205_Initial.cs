@@ -139,6 +139,83 @@ namespace YudaSPCWebApplication.BackendServer.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbInspectionPlan",
+                columns: table => new
+                {
+                    intID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    strInspPlanName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    intAreaID = table.Column<int>(type: "int", nullable: true),
+                    dtCreateTime = table.Column<DateTime>(type: "datetime", nullable: true),
+                    dtUpdateTime = table.Column<DateTime>(type: "datetime", nullable: true),
+                    boolDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbInspectionPlan", x => x.intID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbInspectionPlanData",
+                columns: table => new
+                {
+                    intID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    intInspPlanSubID = table.Column<int>(type: "int", nullable: true),
+                    intCharacteristicID = table.Column<int>(type: "int", nullable: true),
+                    ftLSL = table.Column<double>(type: "float", nullable: true),
+                    ftUSL = table.Column<double>(type: "float", nullable: true),
+                    ftLCL = table.Column<double>(type: "float", nullable: true),
+                    ftUCL = table.Column<double>(type: "float", nullable: true),
+                    boolSPCChart = table.Column<bool>(type: "bit", nullable: true),
+                    boolDataEntry = table.Column<bool>(type: "bit", nullable: true),
+                    intPlanState = table.Column<int>(type: "int", nullable: true),
+                    ftCpkMax = table.Column<double>(type: "float", nullable: true),
+                    ftCpkMin = table.Column<double>(type: "float", nullable: true),
+                    boolSpkControl = table.Column<bool>(type: "bit", nullable: true),
+                    strSampleSize = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    ftPercentControlLimit = table.Column<double>(type: "float", nullable: true),
+                    boolDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbInspectionPlanData", x => x.intID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbInspectionPlanSub",
+                columns: table => new
+                {
+                    intID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    intInspPlanID = table.Column<int>(type: "int", nullable: false),
+                    intPlanTypeID = table.Column<int>(type: "int", nullable: false),
+                    boolDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    dtCreateTime = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbInspectionPlanSub", x => x.intID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbInspectionPlanTracking",
+                columns: table => new
+                {
+                    intID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    intInspPlanID = table.Column<int>(type: "int", nullable: true),
+                    intCharacteristicID = table.Column<int>(type: "int", nullable: true),
+                    intPlanState = table.Column<int>(type: "int", nullable: true),
+                    dtCreateTime = table.Column<DateTime>(type: "datetime", nullable: true),
+                    intUserID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbInspectionPlanTracking", x => x.intID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbInspectionPlanType",
                 columns: table => new
                 {
@@ -545,6 +622,18 @@ namespace YudaSPCWebApplication.BackendServer.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbEventRoles");
+
+            migrationBuilder.DropTable(
+                name: "tbInspectionPlan");
+
+            migrationBuilder.DropTable(
+                name: "tbInspectionPlanData");
+
+            migrationBuilder.DropTable(
+                name: "tbInspectionPlanSub");
+
+            migrationBuilder.DropTable(
+                name: "tbInspectionPlanTracking");
 
             migrationBuilder.DropTable(
                 name: "tbInspectionPlanType");

@@ -12,7 +12,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
     [Authorize(Policy = "Bearer")]
     public class InspectionPlansController(ApplicationDbContext context) : ControllerBase
     {
-        public ApplicationDbContext _context = context;
+        public readonly ApplicationDbContext _context = context;
 
         /// <summary>
         ///  URL: /api/inspectionplans/
