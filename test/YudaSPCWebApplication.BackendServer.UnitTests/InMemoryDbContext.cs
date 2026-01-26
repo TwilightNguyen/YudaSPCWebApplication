@@ -247,5 +247,16 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
+
+        public static void SeedInspectionPlanDatas(ApplicationDbContext context)
+        {
+            context.InspectionPlanDatas.AddRange(new List<InspectionPlanData>
+            {
+                new() { IntID = 1, IntInspPlanSubID = 1, IntCharacteristicID = 1, FtLSL = 10, FtUSL = 20, FtLCL = 12, FtUCL = 18, BoolSPCChart = true, BoolDataEntry = true, IntPlanState = 1, FtCpkMax = 1.33, FtCpkMin = 1.00, BoolSpkControl = true, StrSampleSize = "5", FtPercentControlLimit = 95, BoolDeleted = false },
+                new() { IntID = 2, IntInspPlanSubID = 1, IntCharacteristicID = 2, FtLSL = 5, FtUSL = 15, FtLCL = 7, FtUCL = 13, BoolSPCChart = false, BoolDataEntry = true, IntPlanState = 1, FtCpkMax = 1.50, FtCpkMin = 1.20, BoolSpkControl = false, StrSampleSize = "3", FtPercentControlLimit = 90, BoolDeleted = false },
+                new() { IntID = 3, IntInspPlanSubID = 2, IntCharacteristicID = 3, FtLSL = 100, FtUSL = 200, FtLCL = 120, FtUCL = 180, BoolSPCChart = true, BoolDataEntry = false, IntPlanState = 2, FtCpkMax = 1.25, FtCpkMin = 1.10, BoolSpkControl = true, StrSampleSize = "4", FtPercentControlLimit = 92, BoolDeleted = false }
+            });
+            context.SaveChanges();
+        }
     }
 }

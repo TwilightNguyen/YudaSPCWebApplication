@@ -170,18 +170,22 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// </summary>
         /// <returns></returns>
         /// 
-        [HttpGet("/GetByInsPlanSubId/{InsPlanSubId:int}")]
-        public async Task<IActionResult> GetByInsPlanSubId(int InsPlanSubId)
+        [HttpGet("/GetByInsPlanSubIdAndPlanState/{InsPlanSubId:int,PlanState:int}")]
+        public async Task<IActionResult> GetByInsPlanSubIdAndPlanState(int InsPlanSubId, int? PlanState)
         {
             var inspectionPlanSubs = _context.InspectionPlanSubs.Where(r => r.IntID == InsPlanSubId && r.BoolDeleted == false);
 
             if (inspectionPlanSubs == null || inspectionPlanSubs?.Count() == 0)
             {
-                return NotFound("Inspection Plan Subs not found.");
+                return NotFound("Inspection Plan Sub not found.");
             }
 
             var InspectionPlanDataVms = _context.InspectionPlanDatas
-                .Where(r => r.IntInspPlanSubID == InsPlanSubId && r.BoolDeleted == false)
+                .Where(r => 
+                    r.IntInspPlanSubID == InsPlanSubId && 
+                    (r.IntPlanState == PlanState || PlanState == -1 || PlanState == null) &&
+                    r.BoolDeleted == false
+                )
                 .Select(inspectionPlanData => new InspectionPlanDataVm
                 {
                     Id = inspectionPlanData.IntID,
@@ -209,6 +213,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// </summary>
         /// <returns></returns>
         /// 
+
         [HttpDelete("{Id:int}")]
         public async Task<IActionResult> DeleteInspectionPlanData(int Id)
         {
