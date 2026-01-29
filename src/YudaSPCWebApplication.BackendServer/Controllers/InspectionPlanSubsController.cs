@@ -15,7 +15,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         public readonly ApplicationDbContext _context = context;
 
         /// <summary>
-        ///  URL: /api/inspectionplansubs/
+        ///  URL: /api/inspectionplansubs/2
         /// </summary>
         /// <returns></returns>
         [HttpPost]

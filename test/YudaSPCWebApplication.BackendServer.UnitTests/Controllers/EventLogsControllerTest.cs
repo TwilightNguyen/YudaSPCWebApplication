@@ -135,6 +135,5 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.NotNull(result);
             Assert.Equal("No event logs found.", notfoundResult?.Value);
         }
-
     }
 }
