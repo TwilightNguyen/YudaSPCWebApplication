@@ -24,7 +24,7 @@ namespace YudaSPCWebApplication.BackendServer.Data.Entities
 
 
         [Column("boolDeleted")]
-        public bool BoolDeleted { get; set; }
+        public bool BoolDeleted { get; set; } = false;
 
         [MaxLength(100)]
         [Column("strModelInternal", TypeName = "nvarchar(100)")]

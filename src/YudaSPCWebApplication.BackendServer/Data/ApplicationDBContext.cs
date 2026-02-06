@@ -21,7 +21,7 @@ namespace YudaSPCWebApplication.BackendServer.Data
         public virtual DbSet<ProcessLine> ProcessLines { get; set; }
         public virtual DbSet<Process> Processes { get; set; }
         public virtual DbSet<Characteristic> Characteristics { get; set; }
-        public virtual DbSet<ProductName> ProductNames { get; set; }
+        public virtual DbSet<ProductName> Products { get; set; }
         //public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<JobDecision> JobDecisions { get; set; }
         public virtual DbSet<Shift> Shifts { get; set; }

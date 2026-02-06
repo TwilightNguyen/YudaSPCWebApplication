@@ -31,9 +31,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest("Inspection Plan name cannot be empty.");
             }
 
-            var process = _context.ProductionAreas.FirstOrDefault(p => p.IntID == request.AreaId);
+            var area = _context.ProductionAreas.FirstOrDefault(p => p.IntID == request.AreaId);
 
-            if (process == null)
+            if (area == null)
             {
                 return BadRequest("Invalid Production Area.");
             }
@@ -111,11 +111,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpGet("Pagging")]
         public async Task<IActionResult> GetPaging(string? filter, int pageIndex, int pageSize)
         {
-            var query = _context.InspectionPlans.AsQueryable();
+            var query = _context.InspectionPlans.Where(r => r.BoolDeleted == false).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(filter))
             {
-                query = query.Where(r => r.StrInspPlanName!.Contains(filter) && r.BoolDeleted == false);
+                query = query.Where(r => r.StrInspPlanName!.Contains(filter));
             }
 
             List<InspectionPlanVm> items = [.. query.Skip((pageIndex - 1) * pageSize)
@@ -276,6 +276,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             }
 
             inspectionPlan.BoolDeleted = true;
+            _context.InspectionPlans.Update(inspectionPlan);
+
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
