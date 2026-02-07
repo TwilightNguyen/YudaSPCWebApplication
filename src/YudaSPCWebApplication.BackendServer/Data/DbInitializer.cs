@@ -80,16 +80,31 @@ namespace YudaSPCWebApplication.BackendServer.Data
             }
             #endregion Người dùng
 
+            #region Plan Type
+            if (!_context.InspPlanTypes.Any())
+            {
+                await _context.InspPlanTypes.AddRangeAsync(new List<InspectionPlanType>
+                {
+                    new(){ IntID = 1, StrPlanTypeName = "FPI" },
+                    new(){ IntID = 2, StrPlanTypeName = "IPQC" },
+                    new(){ IntID = 3, StrPlanTypeName = "OQC" },
+                });
+                await _context.SaveChangesAsync();
+            }
+            #endregion Plan Type
+
             #region Job Decision
             if (!_context.JobDecisions.Any()) {
-                await _context.JobDecisions.AddRangeAsync(
-                    new JobDecision{ StrDecision = "Not yet decision", IntColorCode = 16777215 },
-                    new JobDecision{ StrDecision = "Pass", IntColorCode = 33280 },
-                    new JobDecision{ StrDecision = "Sorting", IntColorCode = 16776960 },
-                    new JobDecision{ StrDecision = "Rework", IntColorCode = 16776960 },
-                    new JobDecision{ StrDecision = "AOD", IntColorCode = 16776960 },
-                    new JobDecision{ StrDecision = "Reject", IntColorCode = 16776960 }
-                );
+                await _context.JobDecisions.AddRangeAsync( new List<JobDecision> {
+                    new() { IntID = 1, StrDecision = "Not yet decision", IntColorCode = 16777215 },
+                    new() { IntID = 2, StrDecision = "Pass", IntColorCode = 33280 },
+                    new() { IntID = 3, StrDecision = "Sorting", IntColorCode = 16776960 },
+                    new() { IntID = 4, StrDecision = "Rework", IntColorCode = 16776960 },
+                    new() { IntID = 5, StrDecision = "AOD", IntColorCode = 16776960 },
+                    new() { IntID = 6, StrDecision = "Reject", IntColorCode = 16776960 },
+                });
+
+                await _context.SaveChangesAsync( ); 
             }
             #endregion Job decision
         }

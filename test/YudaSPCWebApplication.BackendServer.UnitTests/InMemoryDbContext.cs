@@ -270,5 +270,19 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
+
+        public static void SeedJobDecision(ApplicationDbContext context)
+        {
+            context.JobDecisions.AddRange(new List<JobDecision>
+            {
+                new() { IntID = 1, StrDecision = "Not yet decision", IntColorCode = 16777215 },
+                new() { IntID = 2, StrDecision = "Pass", IntColorCode = 33280 },
+                new() { IntID = 3, StrDecision = "Sorting", IntColorCode = 16776960 },
+                new() { IntID = 4, StrDecision = "Rework", IntColorCode = 16776960 },
+                new() { IntID = 5, StrDecision = "AOD", IntColorCode = 16776960 },
+                new() { IntID = 6, StrDecision = "Reject", IntColorCode = 16776960 },
+            });
+            context.SaveChanges();
+        }
     }
 }

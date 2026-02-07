@@ -19,7 +19,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         public async Task<IActionResult> GetAll() {
             var jobDecisions = _context.JobDecisions.ToList();
 
-            if (jobDecisions.Any()) {
+            if (jobDecisions == null || jobDecisions.Count == 0) {
                 return BadRequest("No job decision found.");
             }
 
