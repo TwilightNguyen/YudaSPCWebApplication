@@ -16,6 +16,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// /api/jobdecisions
         /// </summary>
         /// 
+        [HttpGet]
         public async Task<IActionResult> GetAll() {
             var jobDecisions = _context.JobDecisions.ToList();
 
