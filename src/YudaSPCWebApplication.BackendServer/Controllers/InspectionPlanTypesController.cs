@@ -28,7 +28,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest("Inspection Plan Type not found.");
             }
 
-            var inspPlanTypeVms = inspPlanTypes.Select(inspPlanType => new InspectionPlanVm
+            var inspPlanTypeVms = inspPlanTypes.Select(inspPlanType => new InspectionPlanTypeVm
             {
                 Id = inspPlanType.IntID,
                 Name = inspPlanType.StrPlanTypeName??string.Empty,
@@ -50,6 +50,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 .ToListAsync();
 
             var inspPlanTypes = await _context.InspPlanTypes.Where( i => inspPlanSubs.Contains(i.IntID)).ToListAsync();
+
+            if(inspPlanTypes == null || inspPlanTypes.Count == 0)
+            {
+                return NotFound("Inspection Plan Type not found.");
+            }
 
             var inspPlanTypeVms = inspPlanTypes.Select(inspPlanType => new InspectionPlanTypeVm
             {
