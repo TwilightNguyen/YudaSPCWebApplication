@@ -79,6 +79,19 @@ namespace YudaSPCWebApplication.BackendServer.Data
 
             }
             #endregion Người dùng
+
+            #region Job Decision
+            if (!_context.JobDecisions.Any()) {
+                await _context.JobDecisions.AddRangeAsync(
+                    new JobDecision{ StrDecision = "Not yet decision", IntColorCode = 16777215 },
+                    new JobDecision{ StrDecision = "Pass", IntColorCode = 33280 },
+                    new JobDecision{ StrDecision = "Sorting", IntColorCode = 16776960 },
+                    new JobDecision{ StrDecision = "Rework", IntColorCode = 16776960 },
+                    new JobDecision{ StrDecision = "AOD", IntColorCode = 16776960 },
+                    new JobDecision{ StrDecision = "Reject", IntColorCode = 16776960 }
+                );
+            }
+            #endregion Job decision
         }
     }
 }
