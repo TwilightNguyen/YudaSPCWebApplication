@@ -162,7 +162,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         [HttpGet("GetByAreaId/{AreaId:int}")]
         public async Task<IActionResult> GetByAreaId(int AreaId) {
             var products = _context.Products.Where(x => x.BoolDeleted == false && x.IntAreaID == AreaId);
-            if (products == null) return NotFound("No product found for the specified production area.");
+            if (products == null || !products.Any()) return NotFound("No product found for the specified production area.");
 
             var productVms = products?.Select(product => new ProductVm
             {
@@ -185,8 +185,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         ///  Url: /api/products/pagging/
         /// </summary>
         /// 
-        [HttpGet("pagging")]
-        public async Task<IActionResult> Pagging(string? filter, int pageIndex, int pageSize) {
+        [HttpGet("GetPaging")]
+        public async Task<IActionResult> GetPaging(string? filter, int pageIndex, int pageSize) {
             var query = _context.Products.Where(p => p.BoolDeleted == false).AsQueryable();
 
             if(!string.IsNullOrEmpty(filter))
@@ -223,7 +223,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// 
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateProduct(int Id, ProductVm productVm) {
-            if (ModelState.IsValid) { 
+            if (!ModelState.IsValid) { 
                 return BadRequest(ModelState);
             }
 
@@ -269,6 +269,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return Ok(new ProductVm
                 {
                     Id = product.IntID,
+                    Name = product.StrNameProduct,
                     AreaId = product.IntAreaID,
                     InspPlanId = product.IntInspPlanID,
                     ModelInternal = product.StrModelInternal,
@@ -307,6 +308,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return Ok(new ProductVm
                 {
                     Id = product.IntID,
+                    Name = product.StrNameProduct,
                     AreaId = product.IntAreaID,
                     InspPlanId= product.IntInspPlanID,
                     ModelInternal = product.StrModelInternal,

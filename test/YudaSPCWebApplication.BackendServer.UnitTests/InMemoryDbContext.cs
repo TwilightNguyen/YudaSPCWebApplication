@@ -258,5 +258,17 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
+
+        public static void SeedProduct(ApplicationDbContext context)
+        {
+            context.Products.AddRange(new List<ProductName>
+            {
+                new () { IntID = 1, StrNameProduct = "Product 01", IntAreaID = 1, IntInspPlanID = 1, IntMoldQty = 2, IntCavityQty = 4, StrModelInternal = "Model Test 01", StrDescription = "Description 01", StrCustomerName = "Customer 01", StrNotes = "Notes 01", BoolDeleted = false },
+                new () { IntID = 2, StrNameProduct = "Product 02", IntAreaID = 1, IntInspPlanID = 1, IntMoldQty = 3, IntCavityQty = 5, StrModelInternal = "Model Test 02", StrDescription = "Description 02", StrCustomerName = "Customer 02", StrNotes = "Notes 02", BoolDeleted = false },
+                new () { IntID = 3, StrNameProduct = "Product 03", IntAreaID = 2, IntInspPlanID = 3, IntMoldQty = 4, IntCavityQty = 6, StrModelInternal = "Model Test 03", StrDescription = "Description 03", StrCustomerName = "Customer 03", StrNotes = "Notes 03", BoolDeleted = false },
+                new () { IntID = 4, StrNameProduct = "Product 04", IntAreaID = 2, IntInspPlanID = 3, IntMoldQty = 4, IntCavityQty = 6, StrModelInternal = "Model Test 04", StrDescription = "Description 04", StrCustomerName = "Customer 04", StrNotes = "Notes 04", BoolDeleted = false },
+            });
+            context.SaveChanges();
+        }
     }
 }

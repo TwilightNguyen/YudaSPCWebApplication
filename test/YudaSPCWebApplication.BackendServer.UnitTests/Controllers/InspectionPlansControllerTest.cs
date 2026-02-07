@@ -120,7 +120,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             var pagedResult = okResult?.Value as Pagination<InspectionPlanVm>;
             Assert.NotNull(pagedResult);
             Assert.Equal(3, pagedResult!.TotalRecords);
-            Assert.Equal(2, pagedResult.Items.Count());
+            Assert.Equal(2, pagedResult.Items.Count);
         }
 
         [Fact]

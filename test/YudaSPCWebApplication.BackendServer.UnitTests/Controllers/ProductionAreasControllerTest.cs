@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data;
-using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers

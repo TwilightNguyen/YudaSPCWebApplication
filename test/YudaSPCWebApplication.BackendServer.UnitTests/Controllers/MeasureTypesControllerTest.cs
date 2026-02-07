@@ -40,11 +40,11 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
         }
 
         [Fact]
-        public void GetAll_HasData_Success()
+        public async Task GetAll_HasData_Success()
         {
             var controller = new MeasureTypesController(_context);
             // Act
-            var result = controller.GetAll().Result;
+            var result = await controller.GetAll();
             // Assert
             Assert.NotNull(result);
             var okResult = result as Microsoft.AspNetCore.Mvc.OkObjectResult;
@@ -129,7 +129,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             var controller = new MeasureTypesController(_context);
             var request = new MeasureTypeCreateRequest
             {
-                Name = null // Null name
+                Name = string.Empty // Use empty string instead of null to satisfy non-nullable property
             };
             // Act
             var result = await controller.CreateMeasureType(request);
@@ -221,7 +221,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             var request = new MeasureTypeVm
             {
                 Id = 1,
-                Name = null // Null name
+                Name = string.Empty
             };
             // Act
             var result = await controller.UpdateMeasureType(1, request);

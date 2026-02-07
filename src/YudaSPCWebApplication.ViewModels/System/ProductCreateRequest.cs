@@ -24,7 +24,5 @@ namespace YudaSPCWebApplication.ViewModels.System
         public int? MoldQty { get; set; }
 
         public int? CavityQty { get; set; }
-
-        public bool Deleted { get; set; } = false;
     }
 }
