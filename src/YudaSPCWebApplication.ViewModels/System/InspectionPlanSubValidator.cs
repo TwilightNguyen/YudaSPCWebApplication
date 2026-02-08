@@ -9,8 +9,8 @@ namespace YudaSPCWebApplication.ViewModels.System
     {
         public InspectionPlanSubValidator()
         {
-            RuleFor(x => x.InspPlanId).GreaterThan(0).WithMessage("InspPlanId must be greater than 0.");
-            RuleFor(x => x.PlanTypeId).GreaterThan(0).WithMessage("PlanTypeId must be greater than 0.");
+            RuleFor(x => x.InspPlanId).GreaterThan(0).WithMessage("InspPlan Id must be greater than 0.");
+            RuleFor(x => x.PlanTypeId).GreaterThan(0).WithMessage("PlanType Id must be greater than 0.");
         }
     }
 }

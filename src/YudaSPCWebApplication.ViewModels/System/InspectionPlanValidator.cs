@@ -11,7 +11,7 @@ namespace YudaSPCWebApplication.ViewModels.System
                 .MaximumLength(100).WithMessage("Inspection Plan Name must not exceed 100 characters.");
 
             RuleFor(x => x.AreaId)
-                .GreaterThan(0).WithMessage("AreaId must be a positive integer.");
+                .GreaterThan(0).WithMessage("Area Id must be a positive integer.");
         }
     }
 }

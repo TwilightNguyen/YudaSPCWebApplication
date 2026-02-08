@@ -6,11 +6,11 @@ namespace YudaSPCWebApplication.ViewModels.System
     {
         public InspectionPlanDataValidator() { 
             RuleFor(RuleFor => RuleFor.InspPlanSubId)
-                .NotNull().WithMessage("InspPlanSubId is required.")
+                .NotNull().WithMessage("InspPlanSub Id is required.")
                 .GreaterThan(0).WithMessage("InspPlanSubId must be a positive integer.");
 
             RuleFor(RuleFor => RuleFor.CharacteristicId)
-                .NotNull().WithMessage("CharacteristicId is required.")
+                .NotNull().WithMessage("Characteristic Id is required.")
                 .GreaterThan(0).WithMessage("CharacteristicId must be a positive integer.");
 
             RuleFor(RuleFor => RuleFor.SampleSize)

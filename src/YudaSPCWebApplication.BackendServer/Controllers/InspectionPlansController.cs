@@ -37,7 +37,6 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             {
                 return BadRequest("Invalid Production Area.");
             }
-
             
             var charExists = _context.InspectionPlans.FirstOrDefault(x =>
                 x.StrInspPlanName == request.Name &&
