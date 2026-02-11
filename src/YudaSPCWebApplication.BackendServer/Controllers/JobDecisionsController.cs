@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.ViewModels.System;
 
@@ -18,7 +19,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// 
         [HttpGet]
         public async Task<IActionResult> GetAll() {
-            var jobDecisions = _context.JobDecisions.ToList();
+            var jobDecisions = await _context.JobDecisions.ToListAsync();
 
             if (jobDecisions == null || jobDecisions.Count == 0) {
                 return BadRequest("No job decision found.");

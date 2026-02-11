@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.ViewModels.System;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {
+
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize(Policy = "Bearer")]
     public class ProductionAreasController(ApplicationDbContext context) : ControllerBase
     {
         // Controller code will go here

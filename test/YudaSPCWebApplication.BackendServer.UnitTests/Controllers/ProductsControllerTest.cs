@@ -31,7 +31,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             InMemoryDbContext.SeedInspectionPlans(_context);
             InMemoryDbContext.SeedInspectionPlanSubs(_context);
             InMemoryDbContext.SeedInspectionPlanDatas(_context);
-            InMemoryDbContext.SeedProduct(_context);
+            InMemoryDbContext.SeedProducts(_context);
         }
 
         public async Task DisposeAsync()

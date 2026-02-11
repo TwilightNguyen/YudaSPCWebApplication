@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using IdentityServer8.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -20,7 +22,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// Url: /api/jobs
         /// </summary>
         /// 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> CreateJob([FromBody] JobCreateRequest request)
         {
             if (!ModelState.IsValid) { 
@@ -45,6 +47,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest("Invalid Product.");
             }
 
+            // Typical claim types (depends on your token/issuer)
+            var userId = User?.FindFirst("sub")?.Value
+                     ?? User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
             var jobExists = await _context.JobDatas.FirstOrDefaultAsync(j => 
                 j.StrJobCode == request.JobCode && 
                 j.IntAreaID == request.AreaId &&
@@ -55,9 +62,6 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             }
 
 
-            // Typical claim types (depends on your token/issuer)
-            var userId = User.FindFirst("sub")?.Value
-                         ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             var iuser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
@@ -142,11 +146,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet("Paging")]
-        public async Task<IActionResult> GetPaging(string filter, int pageIndex, int pageSize)
+        public async Task<IActionResult> GetPaging(string? filter, int pageIndex, int pageSize)
         {
             var query = _context.JobDatas.Where(j => j.BoolDeleted == false).AsQueryable();
 
-            if (string.IsNullOrWhiteSpace(filter))
+            if (!string.IsNullOrWhiteSpace(filter))
             {
                 query = query.Where(j => j.StrJobCode!.Contains(filter));
             }
@@ -187,7 +191,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
             if(job == null)
             {
-                return BadRequest("Job not found.");
+                return NotFound("Job not found.");
             }
 
             var jobVm = new JobVm
@@ -248,9 +252,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            if(Id < 0 || Id == jobVm.Id)
+            if(Id < 0 || Id != jobVm.Id)
             {
-                return BadRequest("Invalid Job Id");
+                return BadRequest("Invalid Job Id.");
             }
 
             var job = await _context.JobDatas.FirstOrDefaultAsync(j => 
@@ -259,7 +263,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             );
 
             if (job == null) {
-                return BadRequest("Job not found");
+                return NotFound("Job not found.");
             }
 
             if (string.IsNullOrWhiteSpace(jobVm.JobCode)) {
@@ -281,7 +285,8 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             job.StrSOCode = jobVm.SOCode;
             job.IntJobDecisionID = jobVm.JobDecisionId;
             job.IntJobQty = jobVm.JobQty;
-            job.IntProductID = jobVm.ProductId;
+            job.IntOutputQty = jobVm.OutputQty;
+            //job.IntProductID = jobVm.ProductId;
 
             _context.JobDatas.Update(job);
             var result = await _context.SaveChangesAsync();
@@ -298,7 +303,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                     SOCode = job.StrSOCode,
                     JobDecisionId = job.IntJobDecisionID,
                     JobQty = job.IntJobQty,
-                    OutputQty = job.IntJobQty,
+                    OutputQty = job.IntOutputQty,
                     CreateTime = job.DtCreateTime,
                     UserId = job.IntUserID,
                 });
@@ -320,7 +325,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
             if(job == null)
             {
-                return NotFound("Job not found");
+                return NotFound("Job not found.");
             }
 
             job.BoolDeleted = true;
@@ -339,7 +344,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                     SOCode = job.StrSOCode,
                     JobDecisionId = job.IntJobDecisionID,
                     JobQty = job.IntJobQty,
-                    OutputQty = job.IntJobQty,
+                    OutputQty = job.IntOutputQty,
                     CreateTime = job.DtCreateTime,
                     UserId = job.IntUserID,
                 });

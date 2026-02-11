@@ -14,7 +14,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
         public async Task InitializeAsync()
         {
             _context = InMemoryDbContext.GetApplicationDbContext();
-            InMemoryDbContext.SeedJobDecision(_context);
+            InMemoryDbContext.SeedJobDecisions(_context);
 
             await Task.CompletedTask;
         }

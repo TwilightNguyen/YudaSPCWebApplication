@@ -170,7 +170,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// </summary>
         /// <returns></returns>
         /// 
-        [HttpGet("/GetByInsPlanSubIdAndPlanState/{InsPlanSubId:int,PlanState:int}")]
+        [HttpGet("/GetByInsPlanSubIdAndPlanState/{InsPlanSubId:int}/{PlanState:int}")]
         public async Task<IActionResult> GetByInsPlanSubIdAndPlanState(int InsPlanSubId, int? PlanState)
         {
             var inspectionPlanSubs = _context.InspectionPlanSubs.Where(r => r.IntID == InsPlanSubId && r.BoolDeleted == false);

@@ -259,7 +259,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             context.SaveChanges();
         }
 
-        public static void SeedProduct(ApplicationDbContext context)
+        public static void SeedProducts(ApplicationDbContext context)
         {
             context.Products.AddRange(new List<ProductName>
             {
@@ -271,7 +271,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             context.SaveChanges();
         }
 
-        public static void SeedJobDecision(ApplicationDbContext context)
+        public static void SeedJobDecisions(ApplicationDbContext context)
         {
             context.JobDecisions.AddRange(new List<JobDecision>
             {
@@ -281,6 +281,68 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
                 new() { IntID = 4, StrDecision = "Rework", IntColorCode = 16776960 },
                 new() { IntID = 5, StrDecision = "AOD", IntColorCode = 16776960 },
                 new() { IntID = 6, StrDecision = "Reject", IntColorCode = 16776960 },
+            });
+            context.SaveChanges();
+        }
+
+        public static void SeedJobs(ApplicationDbContext context) { 
+            context.JobDatas.AddRange(new List<JobData> {
+                new() { 
+                    IntID = 1, 
+                    StrJobCode = "Job Code 1", 
+                    StrPOCode = "PO Code 1", 
+                    StrSOCode = "SO Code 1", 
+                    IntAreaID = 1, 
+                    IntProductID = 1, 
+                    IntJobDecisionID = 1, 
+                    IntJobQty = 1000, 
+                    IntOutputQty = 1000, 
+                    DtCreateTime = DateTime.Now, 
+                    BoolDeleted = false, 
+                    IntUserID = 1 
+                },
+                new() {
+                    IntID = 2,
+                    StrJobCode = "Job Code 2",
+                    StrPOCode = "PO Code 2",
+                    StrSOCode = "SO Code 2",
+                    IntAreaID = 1,
+                    IntProductID = 2,
+                    IntJobDecisionID = 1,
+                    IntJobQty = 1000,
+                    IntOutputQty = 1000,
+                    DtCreateTime = DateTime.Now,
+                    BoolDeleted = false,
+                    IntUserID = 1
+                },
+                new() {
+                    IntID = 3,
+                    StrJobCode = "Job Code 3",
+                    StrPOCode = "PO Code 3",
+                    StrSOCode = "SO Code 3",
+                    IntAreaID = 2,
+                    IntProductID = 3,
+                    IntJobDecisionID = 1,
+                    IntJobQty = 1000,
+                    IntOutputQty = 1000,
+                    DtCreateTime = DateTime.Now,
+                    BoolDeleted = false,
+                    IntUserID = 1
+                },
+                new() {
+                    IntID = 4,
+                    StrJobCode = "Job Code 4",
+                    StrPOCode = "PO Code 4",
+                    StrSOCode = "SO Code 4",
+                    IntAreaID = 1,
+                    IntProductID = 1,
+                    IntJobDecisionID = 1,
+                    IntJobQty = 1000,
+                    IntOutputQty = 1000,
+                    DtCreateTime = DateTime.Now,
+                    BoolDeleted = false,
+                    IntUserID = 1
+                },
             });
             context.SaveChanges();
         }
