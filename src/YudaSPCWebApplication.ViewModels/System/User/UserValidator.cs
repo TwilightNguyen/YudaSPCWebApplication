@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace YudaSPCWebApplication.ViewModels.System
+namespace YudaSPCWebApplication.ViewModels.System.User
 {
     public class UserValidator : AbstractValidator<UserCreateRequest>
     {

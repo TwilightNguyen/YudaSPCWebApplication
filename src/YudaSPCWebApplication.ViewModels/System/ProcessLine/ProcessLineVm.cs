@@ -4,14 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace YudaSPCWebApplication.ViewModels.System
+namespace YudaSPCWebApplication.ViewModels.System.ProcessLine
 {
-    public class ProcessVm
+    public class ProcesslineVm
     { 
         public required int Id { get; set; }
          
         public string? Name { get; set; } 
 
-        public int? AreaId { get; set; }
+        public string? Code { get; set; }
+
+        public int? ProcessId { get; set; }
     }
 }

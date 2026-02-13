@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using YudaSPCWebApplication.ViewModels.System.InspectionPlan;
 
 namespace YudaSPCWebApplication.ViewModels.System
 {

@@ -7,7 +7,7 @@ using Moq;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.User;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {

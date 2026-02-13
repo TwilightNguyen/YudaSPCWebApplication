@@ -6,8 +6,8 @@ using Moq;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
 using MockQueryable;
+using YudaSPCWebApplication.ViewModels.System.Role;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {

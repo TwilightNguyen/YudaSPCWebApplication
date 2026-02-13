@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.ProductionArea;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {

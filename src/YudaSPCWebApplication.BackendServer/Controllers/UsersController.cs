@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.User;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {

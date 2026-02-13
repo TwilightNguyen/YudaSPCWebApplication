@@ -4,7 +4,7 @@ using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.BackendServer.Services;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.EventLog;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {

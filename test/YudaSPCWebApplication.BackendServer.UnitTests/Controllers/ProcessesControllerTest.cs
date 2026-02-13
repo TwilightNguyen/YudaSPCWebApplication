@@ -5,7 +5,7 @@ using System.Text;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.Process;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {

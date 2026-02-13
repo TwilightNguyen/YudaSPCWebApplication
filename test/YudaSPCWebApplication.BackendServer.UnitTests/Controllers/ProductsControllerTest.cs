@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.Product;
 using static Azure.Core.HttpHeader;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers

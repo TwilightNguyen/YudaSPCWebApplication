@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.Characteristic;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {

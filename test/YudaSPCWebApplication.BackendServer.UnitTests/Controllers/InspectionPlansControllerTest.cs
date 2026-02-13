@@ -2,7 +2,7 @@
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.InspectionPlan;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {

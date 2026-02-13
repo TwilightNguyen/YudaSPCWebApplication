@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using YudaSPCWebApplication.BackendServer.Controllers;
 using YudaSPCWebApplication.BackendServer.Data;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.InspectionPlanSub;
 
 namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
 {

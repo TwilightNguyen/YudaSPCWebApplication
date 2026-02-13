@@ -3,6 +3,7 @@ using FluentValidation.Validators;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using YudaSPCWebApplication.ViewModels.System.Product;
 
 namespace YudaSPCWebApplication.ViewModels.System
 {

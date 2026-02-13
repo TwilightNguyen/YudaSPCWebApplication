@@ -11,7 +11,7 @@ using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.BackendServer.IdentityServer;
 using YudaSPCWebApplication.BackendServer.Services;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.Role;
 
 
 Log.Logger = new LoggerConfiguration()

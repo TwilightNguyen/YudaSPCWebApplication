@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace YudaSPCWebApplication.ViewModels.System
+namespace YudaSPCWebApplication.ViewModels.System.Role
 {
     public class RoleValidator: AbstractValidator<RoleCreateRequest>
     {

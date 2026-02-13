@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.InspectionPlanTracking;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {

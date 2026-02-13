@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace YudaSPCWebApplication.ViewModels.System
+namespace YudaSPCWebApplication.ViewModels.System.MeasureType
 {
     public class MeasureTypeValidator : AbstractValidator<MeasureTypeCreateRequest>
     {
