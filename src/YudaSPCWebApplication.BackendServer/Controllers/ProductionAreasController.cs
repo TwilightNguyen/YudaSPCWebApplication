@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using YudaSPCWebApplication.BackendServer.Data;
-using YudaSPCWebApplication.ViewModels.System;
+using YudaSPCWebApplication.ViewModels.System.ProductionArea;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {

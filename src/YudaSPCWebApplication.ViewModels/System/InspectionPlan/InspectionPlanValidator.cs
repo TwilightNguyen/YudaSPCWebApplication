@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using YudaSPCWebApplication.ViewModels.System.InspectionPlan;
 
-namespace YudaSPCWebApplication.ViewModels.System
+namespace YudaSPCWebApplication.ViewModels.System.InspectionPlan
 {
     public class InspectionPlanValidator : AbstractValidator<InspectionPlanCreateRequest>
     {

@@ -346,5 +346,13 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             });
             context.SaveChanges();
         }
+
+        public static void SeedShifts(ApplicationDbContext context)
+        {
+            context.Shifts.AddRange(new List<Shift>{
+                new() { IntID = 1, StrNameShift = "Shift 1", DtStartTime = new TimeSpan(6,0,0), DtEndTime = new TimeSpan(18,0,0) },
+                new() { IntID = 1, StrNameShift = "Shift 2", DtStartTime = new TimeSpan(18,0,0), DtEndTime = new TimeSpan(6,0,0) }
+            });
+        }
     }
 }

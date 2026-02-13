@@ -1,4 +1,4 @@
-﻿namespace YudaSPCWebApplication.ViewModels.System
+﻿namespace YudaSPCWebApplication.ViewModels.System.InspectionPlanData
 {
     public class InspectionPlanDataVm
     {

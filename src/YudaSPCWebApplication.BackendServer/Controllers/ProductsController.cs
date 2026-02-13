@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.BackendServer.Data.Entities;
 using YudaSPCWebApplication.ViewModels;
-using YudaSPCWebApplication.ViewModels.System;
 using YudaSPCWebApplication.ViewModels.System.Product;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
