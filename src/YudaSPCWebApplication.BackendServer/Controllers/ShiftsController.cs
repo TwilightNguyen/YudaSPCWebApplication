@@ -1,13 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using YudaSPCWebApplication.BackendServer.Data;
 using YudaSPCWebApplication.ViewModels.System.Shift;
 
 namespace YudaSPCWebApplication.BackendServer.Controllers
 {
+
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize(Policy = "Bearer")]
     public class ShiftsController(ApplicationDbContext context) : ControllerBase
     {
-        public required ApplicationDbContext _context = context;
+        public readonly ApplicationDbContext _context = context;
 
         ///<summary>
         /// Url: /api/shifts
