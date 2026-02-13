@@ -427,5 +427,35 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
 
             context.SaveChanges();
         }
+
+        public static void SeedTvDisplay(ApplicationDbContext context)
+        {
+            context.TVDisplays.AddRange(new List<TVDisplay> {
+                new()
+                {
+                    IntID = 1,
+                    StrTVName = "Tapes",
+                    StrProductionID = "1",
+                    StrCharacteristicID = "1",
+                    StrPlanTypeID = "1",
+                    StrMoldID = "1",
+                    StrCavityID = "1",
+
+                },
+                new()
+                {
+                    IntID = 2,
+                    StrTVName = "Layout",
+                    StrProductionID = null,
+                    StrCharacteristicID = null,
+                    StrPlanTypeID = null,
+                    StrMoldID = null,
+                    StrCavityID = null,
+
+                }
+            });
+
+            context.SaveChanges();
+        }
     }
 }
