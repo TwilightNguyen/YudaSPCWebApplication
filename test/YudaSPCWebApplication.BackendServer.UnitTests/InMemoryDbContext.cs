@@ -30,7 +30,8 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             {
                 new() { IntID = 1, StrNameArea = "Tape" },
                 new() { IntID = 2, StrNameArea = "Layout" },
-                new() { IntID = 3, StrNameArea = "Block Vial" }
+                new() { IntID = 3, StrNameArea = "Block Vial" },
+                new() { IntID = 4, StrNameArea = "Print" }
             });
             context.SaveChanges();
         }
@@ -165,7 +166,8 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             {
                 new() { IntID = 1, StrProcessName = "Process A", IntAreaID = 1 },
                 new() { IntID = 2, StrProcessName = "Process B", IntAreaID = 1 },
-                new() { IntID = 3, StrProcessName = "Process C", IntAreaID = 2 }
+                new() { IntID = 3, StrProcessName = "Process C", IntAreaID = 2 },
+                new() { IntID = 4, StrProcessName = "Process D", IntAreaID = 3 },
             });
             context.SaveChanges();
         }
@@ -176,7 +178,8 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             {
                 new() { IntID = 1, StrProcessLineName = "Process A Line A", StrProcessLineCode = "A0A", IntProcessID = 1 },
                 new() { IntID = 2, StrProcessLineName = "Process A Line B", StrProcessLineCode = "A0B", IntProcessID = 1 },
-                new() { IntID = 3, StrProcessLineName = "Process B Line C", StrProcessLineCode = "B0C", IntProcessID = 2 }
+                new() { IntID = 3, StrProcessLineName = "Process B Line C", StrProcessLineCode = "B0C", IntProcessID = 2 },
+                new() { IntID = 4, StrProcessLineName = "Process C Line D", StrProcessLineCode = "C0D", IntProcessID = 3 }
             });
             context.SaveChanges();
         }
@@ -352,6 +355,74 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest
             context.Shifts.AddRange(new List<Shift>{
                 new() { IntID = 1, StrNameShift = "Shift 1", DtStartTime = new TimeSpan(6,0,0), DtEndTime = new TimeSpan(18,0,0) },
                 new() { IntID = 2, StrNameShift = "Shift 2", DtStartTime = new TimeSpan(18,0,0), DtEndTime = new TimeSpan(6,0,0) }
+            });
+
+            context.SaveChanges();
+        }
+
+        public static void SeedProductions(ApplicationDbContext context) {
+            context.ProductionDatas.AddRange(new List<ProductionData>
+            {
+                new(){ 
+                    IntID = 1, 
+                    IntJobID = 1, 
+                    IntLineID = 1, 
+                    IntProductionQty = 1000, 
+                    DtProductionDate = DateTime.Now.AddDays(-9), 
+                    StrLotInform = "Lot Inform 1",
+                    StrMaterialInform = "Material Inform 1",
+                    StrNotes = "Note 1",
+                    DtStartTime = DateTime.Now.AddDays(-10),
+                    DtEndTime = DateTime.Now.AddDays(-8),
+                    IntUserID = 1,
+                    BoolDeleted = false,
+                    IntCNCLatheMachine = null,
+                },
+                new(){
+                    IntID = 2,
+                    IntJobID = 1,
+                    IntLineID = 1,
+                    IntProductionQty = 2000,
+                    DtProductionDate = DateTime.Now.AddDays(-1),
+                    StrLotInform = "Lot Inform 2",
+                    StrMaterialInform = "Material Inform 2",
+                    StrNotes = "Note 2",
+                    DtStartTime = DateTime.Now.AddDays(-2),
+                    DtEndTime = null,
+                    IntUserID = 1,
+                    BoolDeleted = false,
+                    IntCNCLatheMachine = null,
+                },
+                new(){
+                    IntID = 3,
+                    IntJobID = 2,
+                    IntLineID = 2,
+                    IntProductionQty = 3000,
+                    DtProductionDate = DateTime.Now.AddDays(-1),
+                    StrLotInform = "Lot Inform 3",
+                    StrMaterialInform = "Material Inform 3",
+                    StrNotes = "Note 3",
+                    DtStartTime = DateTime.Now.AddDays(-2),
+                    DtEndTime = null,
+                    IntUserID = 1,
+                    BoolDeleted = false,
+                    IntCNCLatheMachine = null,
+                },
+                new(){
+                    IntID = 4,
+                    IntJobID = 3,
+                    IntLineID = 3,
+                    IntProductionQty = 3000,
+                    DtProductionDate = DateTime.Now.AddDays(-1),
+                    StrLotInform = "Lot Inform 4",
+                    StrMaterialInform = "Material Inform 4",
+                    StrNotes = "Note 4",
+                    DtStartTime = DateTime.Now.AddDays(-2),
+                    DtEndTime = null,
+                    IntUserID = 1,
+                    BoolDeleted = false,
+                    IntCNCLatheMachine = null,
+                },
             });
 
             context.SaveChanges();

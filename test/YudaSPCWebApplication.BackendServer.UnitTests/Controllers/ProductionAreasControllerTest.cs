@@ -56,10 +56,11 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.NotNull(result);
             var okResult = result as OkObjectResult;
             var areasList = okResult?.Value as IEnumerable<ProductionAreaVm>;
-            Assert.Equal(3, areasList?.Count());
+            Assert.Equal(4, areasList?.Count());
             Assert.Contains(areasList!, a => a.Name == "Tape");
             Assert.Contains(areasList!, a => a.Name == "Layout");
             Assert.Contains(areasList!, a => a.Name == "Block Vial");
+            Assert.Contains(areasList!, a => a.Name == "Print");
         }
 
         [Fact]
@@ -83,7 +84,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             var controller = new ProductionAreasController(_context);
             
 
-            var result = await controller.GetById(4);
+            var result = await controller.GetById(999);
 
             // Assert
             Assert.NotNull(result);

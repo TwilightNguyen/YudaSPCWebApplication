@@ -57,10 +57,11 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             Assert.NotNull(result);
             var okResult = result as OkObjectResult;
             var processesList = okResult?.Value as IEnumerable<ProcessVm>;
-            Assert.Equal(3, processesList?.Count());
+            Assert.Equal(4, processesList?.Count());
             Assert.Contains(processesList!, a => a.Name == "Process A");
             Assert.Contains(processesList!, a => a.Name == "Process B");
             Assert.Contains(processesList!, a => a.Name == "Process C");
+            Assert.Contains(processesList!, a => a.Name == "Process D");
 
         }
 
@@ -85,7 +86,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             var controller = new ProcessesController(_context);
 
 
-            var result = await controller.GetById(4);
+            var result = await controller.GetById(999);
 
             // Assert
             Assert.NotNull(result);
@@ -116,7 +117,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             // Act
             var controller = new ProcessesController(_context);
 
-            var result = await controller.GetByAreaId(3);
+            var result = await controller.GetByAreaId(4);
 
             // Assert
             Assert.NotNull(result);
@@ -131,7 +132,7 @@ namespace YudaSPCWebApplication.BackendServer.UnitTest.Controllers
             // Act
             var controller = new ProcessesController(_context);
 
-            var result = await controller.GetByAreaId(4);
+            var result = await controller.GetByAreaId(999);
 
             // Assert
             Assert.NotNull(result);

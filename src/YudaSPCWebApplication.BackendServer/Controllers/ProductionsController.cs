@@ -22,7 +22,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] ProductionCreateRequest request)
+        public async Task<IActionResult> CreateProduction([FromBody] ProductionCreateRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -53,7 +53,11 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             var iuser = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            // Nếu là DB quan hệ (SQL Server) thì mới tạo Transaction, In-memory sẽ bỏ qua
+            using var transaction = _context.Database.IsRelational()
+                ? await _context.Database.BeginTransactionAsync()
+                : null;
+
             try
             {
                 var productionRunning = await _context.ProductionDatas.FirstOrDefaultAsync(p => p.IntLineID == request.LineId && p.DtEndTime == null && p.BoolDeleted == false);
@@ -85,6 +89,9 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
 
                 if(result > 1)
                 {
+                    // Chỉ Commit nếu có transaction
+                    if (transaction != null) await transaction.CommitAsync();
+
                     return CreatedAtAction(
                         nameof(GetById),
                         new {Id = production.IntID},
@@ -111,7 +118,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             }
 
             // 3. Nếu có lỗi, hoàn tác mọi thay đổi đã thực hiện ở trên
-            await transaction.RollbackAsync();
+            if (transaction != null) await transaction.RollbackAsync();
             return BadRequest("Failed to create Production.");
         }
 
@@ -175,7 +182,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             var pagination = new Pagination<ProductionVm>
             {
                 Items = items,
-                TotalRecords = items.Count,
+                TotalRecords = query.Count(),
             };
 
             return Ok(pagination);
@@ -242,6 +249,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
             production.StrMaterialInform = productionVm.MaterialInform;
             production.StrNotes = productionVm.Notes;
             production.IntProductionQty = productionVm.ProductionQty;
+            production.DtProductionDate = productionVm.ProductionDate;
 
             _context.ProductionDatas.Update(production);
 
@@ -254,7 +262,7 @@ namespace YudaSPCWebApplication.BackendServer.Controllers
                     Id = production.IntID,
                     JobId = production.IntJobID,
                     LineId = production.IntLineID,
-                    ProductionDate = production.DtStartTime,
+                    ProductionDate = production.DtProductionDate,
                     ProductionQty = production.IntProductionQty,
                     LotInform = production.StrLotInform,
                     MaterialInform = production.StrMaterialInform,

@@ -28,7 +28,7 @@ builder.Host.UseSerilog();
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-
+    
     // Khuyến nghị: chỉ định proxy đáng tin (tăng bảo mật). Ví dụ:
     // options.KnownProxies.Add(IPAddress.Parse("10.0.0.100"));
     // options.KnownNetworks.Add(new IPNetwork(IPAddress.Parse("10.0.0.0"), 8));
@@ -39,7 +39,9 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 
 // Add DB context
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 //builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 // Add Identity

@@ -6,17 +6,9 @@ namespace YudaSPCWebApplication.ViewModels.System.Production
 {
     public class ProductionCreateRequest
     {
-        public int Id { get; set; }
+        public required int LineId { get; set; }
 
-        public int? LineId { get; set; }
-
-        public DateTime? StartTime { get; set; }
-
-        public DateTime? EndTime { get; set; }
-
-        public int? JobId { get; set; }
-
-        public int? UserId { get; set; }
+        public required int JobId { get; set; }
 
         public string? Notes { get; set; }
 
